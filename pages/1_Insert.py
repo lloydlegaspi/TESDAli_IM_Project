@@ -1,43 +1,40 @@
 import streamlit as st
 import pandas as pd
 from database_manager import *
+import datetime
+from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 logo_path = "images/logo.png"
 
-# Mapping dictionary for Assessment Status
-assessment_status_mapping = {
-    "Full Qualification": "FQ",
-    "COC": "COC",
-    "Renewal": "R"
-}
-
-# Mapping dictionary for Civil Status
-civil_status_mapping = {
-    "Single": "S",
-    "Married": "M",
-    "Widow/er": "W",
-    "Separated": "SP"
-}
-
-# Mapping dictionary for Client Type
-client_type_mapping = {
-    "TVET Graduating Student": "TVETGS",
-    "TVET graduate": "TVETG",
-    "Industry worker": "IW",
-    "K-12": "K-12",
-    "OWF": "OWF"
-}
-
-# Mapping dictionary for Employment Status
-employment_status_mapping = {
-    "Casual": "C",
-    "Job Order": "JO",
-    "Probationary": "PR",
-    "Permanent": "P",
-    "Self-Employed": "SE",
-    "OFW": "OFW"
-}
+# Custom CSS for the button
+m = st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+        box-shadow:inset 0px 1px 0px 0px #97c4fe;
+        background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+        background-color:#3d94f6;
+        border-radius:6px;
+        border:1px solid #337fed;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:6px 24px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #1570cd;
+    }
+    div.stButton > button:hover {
+        background: linear-gradient(#378de5, #79bbff);
+    }
+    div.stButton > button:active {
+        position:relative;
+        top:3px;
+    }
+    
+    </style>""", unsafe_allow_html=True)
 
 # Custom CSS for the radio buttons
 st.markdown("""
@@ -61,15 +58,15 @@ with col3:
 st.write(" ")
 st.write(" ")
 
-st.write("Please fill up completely and correctly the required information before each item below. Required items are marked with an asterisk (*).")
+st.write("Please provide accurate and complete information for each section below. Items marked with an asterisk (*) are mandatory fields.")
 
-with st.form("application_form"):
+with st.form("application_form", clear_on_submit=True):
     st.markdown("<h1 style='color: blue;'>APPLICATION FORM</h1>", unsafe_allow_html=True)
     col1, col2, col3, col4, col5 = st.columns([2, .2, 2, .2, 2])
     with col1:
-        Ref_No = st.text_input("REFERENCE NUMBER*")
+        Ref_No = st.text_input("REFERENCE NUMBER*", placeholder="System-generated", disabled=True)
     with col3:
-        Learners_ID = st.text_input("UNIQUE LEARNERS IDENTIFIER (ULI)*", placeholder="- - - -")
+        Learners_ID = st.text_input("UNIQUE LEARNERS IDENTIFIER (ULI)*")
     with col5:
         Application_Date = st.date_input("Date of Application*")
         
@@ -164,7 +161,7 @@ with st.form("application_form"):
                                              options=["Casual", "Job Order", "Probationary", "Permanent", "Self-Employed", "OFW"],
                                              index=None)
         with col3:
-            Birth_Date = st.date_input("2.10. Birth date", value=None)
+            Birth_Date = st.date_input("2.10. Birth date", value=None, min_value=datetime.date(1950, 1, 1), max_value=datetime.date(2040, 12, 31))
         with col4:
             Birth_Place = st.text_input("2.11. Birth place", placeholder="City, Province")
         with col5:
@@ -192,12 +189,73 @@ with st.form("application_form"):
                                                                                                         "Self-Employed", "OFW"]),
                                               "Work_Years": st.column_config.NumberColumn("3.6. No. of Yrs. Working")})
     
-    submit_button = st.form_submit_button("Submit")
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        submit_button = st.form_submit_button("**📥 SUBMIT**", help="Click to submit the form", use_container_width=True)
+
+st.write(" ")
+st.write(" ")
+st.write(" ")
+st.write(" ")
+
+# Navigation buttons
+col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1,])
+with col1:
+    if st.button("Back to Home", use_container_width=True):
+        switch_page("Home")
+with col2:
+    st.button("Add a Record", disabled=True, use_container_width=True)
+with col3:
+    if st.button("View Records", use_container_width=True):
+        switch_page("View")
+with col4:
+    if st.button("Update a Record", use_container_width=True):
+        switch_page("Update")
+with col5:
+    if st.button("Delete a Record", use_container_width=True):
+        switch_page("Delete")
+st.write(" ")
 
 @st.experimental_dialog("Submitted Information", width="large")
 def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
            Assessment_Status, Client_Type, Name, Address, Mothers_Name, Fathers_Name, Sex, Civil_Status,
            Tel_No, Mobile_No, Email, Fax_No, Education, Emp_Status, Birth_Date, Birth_Place, Age, edited_df):
+   
+    edited_df = edited_df.reset_index(drop=True)
+
+   # Mapping dictionary for Assessment Status
+    assessment_status_mapping = {
+        "Full Qualification": "FQ",
+        "COC": "COC",
+        "Renewal": "R"
+    }
+
+    # Mapping dictionary for Civil Status
+    civil_status_mapping = {
+        "Single": "S",
+        "Married": "M",
+        "Widow/er": "W",
+        "Separated": "SP"
+    }
+
+    # Mapping dictionary for Client Type
+    client_type_mapping = {
+        "TVET Graduating Student": "TVETGS",
+        "TVET graduate": "TVETG",
+        "Industry worker": "IW",
+        "K-12": "K-12",
+        "OWF": "OWF"
+    }
+
+    # Mapping dictionary for Employment Status
+    employment_status_mapping = {
+        "Casual": "C",
+        "Job Order": "JO",
+        "Probationary": "PR",
+        "Permanent": "P",
+        "Self-Employed": "SE",
+        "OFW": "OFW"
+    }
     
     Assessment_Status_Code = assessment_status_mapping[Assessment_Status]
     Client_Type_Code = client_type_mapping[Client_Type]
@@ -205,8 +263,7 @@ def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Addr
     Emp_Status_Code = employment_status_mapping[Emp_Status]
     Sex = 'M' if Sex == 'Male' else 'F'
     
-    for index, row in edited_df.iterrows():
-        row['Appt Status'] = employment_status_mapping[row['Appt Status']]
+    edited_df['Appt Status'] = edited_df['Appt Status'].map(employment_status_mapping)
     
     st.write(f"Reference Number: {Ref_No}")
     st.write(f"Unique Learners Identifier: {Learners_ID}")
@@ -232,7 +289,7 @@ def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Addr
     st.write(f"Birth place: {Birth_Place}")
     st.write(f"Age: {Age}")
     st.write("Work Experience (National Qualification-related):")
-    st.write(edited_df, use_container_width=True)
+    st.write(edited_df)
     
     confirm_button = st.button("Confirm")
     
