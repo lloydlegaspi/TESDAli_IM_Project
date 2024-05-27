@@ -3,9 +3,11 @@ import logging
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 PASSWORD = os.getenv("PASSWORD")
 
+@staticmethod
 # Function to connect to the MySQL database
 def connect_to_database():
     try:
@@ -31,7 +33,7 @@ def create_tables():
             cursor.execute("""
             CREATE TABLE IF NOT EXISTS Learners (
                 Learners_ID INT PRIMARY KEY,
-                Client_Type VARCHAR(6),
+                Client_Type VARCHAR(6) NOT NULL,
                 Name VARCHAR(50) NOT NULL,
                 Address VARCHAR(100) NOT NULL,
                 Mothers_Name VARCHAR(50) NOT NULL,
@@ -58,8 +60,10 @@ def create_tables():
                 Training_Address VARCHAR(100) NOT NULL,
                 Assessment_Title VARCHAR(50) NOT NULL,
                 Assessment_Status VARCHAR(3) NOT NULL,
-                Learners_ID INT NOT NULL,
+                Learners_ID INT,
                 FOREIGN KEY (Learners_ID) REFERENCES Learners(Learners_ID)
+                    ON UPDATE CASCADE
+                    ON DELETE SET NULL
             )
             """)
             # Create Work_Exp table
@@ -70,11 +74,13 @@ def create_tables():
                 Position VARCHAR(50) NOT NULL,
                 Start_Date DATE NOT NULL,
                 End_Date DATE NOT NULL,
-                Salary DECIMAL(8, 2),
+                Salary DECIMAL(8, 2) NOT NULL,
                 Appt_Status VARCHAR(3) NOT NULL,
                 Work_Years INT NOT NULL,
                 Learners_ID INT NOT NULL,
                 FOREIGN KEY (Learners_ID) REFERENCES Learners(Learners_ID)
+                    ON UPDATE CASCADE
+                    ON DELETE CASCADE
             )
             """)
             print("Tables created successfully")
@@ -152,3 +158,146 @@ def insert_into_work_experience(comp_name, position, start_date, end_date, salar
     finally:
         if conn:
             conn.close()
+            
+# Functions to fetch data from the database
+def fetch_learners():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Learners")
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching data from Learners table: {e}")
+    finally:
+        if conn:
+            conn.close()
+
+def fetch_applications():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Application")
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching data from Application table: {e}")
+    finally:
+        if conn:
+            conn.close()
+
+def fetch_work_experiences():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Work_Exp")
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching data from Work_Exp table: {e}")
+    finally:
+        if conn:
+            conn.close()
+            
+def fetch_record(table, record_id):
+    primary_keys = {
+        "Learners": "Learners_ID",
+        "Application": "Ref_No",
+        "Work_Exp": "Work_Exp_Code"
+    }
+    
+    if table not in primary_keys:
+        print(f"Unknown table: {table}")
+        return None, None
+    
+    primary_key = primary_keys[table]
+    
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            query = f"SELECT * FROM {table} WHERE {primary_key} = %s"
+            cursor.execute(query, (record_id,))
+            result = cursor.fetchone()
+            if result:
+                columns = [desc[0] for desc in cursor.description]
+                cursor.close()
+                return result, columns
+            else:
+                return None, None
+    except connector.Error as e:
+        print(f"Error fetching record from {table} table: {e}")
+        return None, None
+    finally:
+        if conn:
+            conn.close()
+
+            
+# Function to update data in the Learners table
+def update_record(table, record_id, update_data):
+    primary_keys = {
+        "Learners": "Learners_ID",
+        "Application": "Ref_No",
+        "Work_Exp": "Work_Exp_Code"
+    }
+    
+    if table not in primary_keys:
+        print(f"Unknown table: {table}")
+        return None, None
+    
+    primary_key = primary_keys[table]
+    
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
+            values = list(update_data.values())
+            update_query = f"UPDATE {table} SET {set_clause} WHERE {primary_key} = %s"
+            values.append(record_id)
+            cursor.execute(update_query, values)
+            conn.commit()
+            print(f"Record in {table} table updated successfully")
+    except connector.Error as e:
+        print(f"Error updating record in {table} table: {e}")
+    finally:
+        if conn:
+            conn.close()
+    
+# Function to delete a record from the specified table
+def delete_record(table, record_id):
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            # Determine the primary key column based on the table name
+            primary_key = {
+                "Learners": "Learners_ID",
+                "Application": "Ref_No",
+                "Work_Exp": "Work_Exp_Code"
+            }.get(table)
+            if not primary_key:
+                raise ValueError("Invalid table name")
+            # Delete the record
+            cursor.execute(f"DELETE FROM {table} WHERE {primary_key} = %s", (record_id,))
+            conn.commit()
+            if cursor.rowcount == 0:
+                return False, f"No record found with ID {record_id} in {table} table"
+            return True, f"Record with ID {record_id} deleted from {table} table successfully"
+    except connector.Error as e:
+        return False, f"Error deleting record from {table} table: {e}"
+    finally:
+        if conn:
+            conn.close()
+
+if __name__ == "__main__":
+    pass
