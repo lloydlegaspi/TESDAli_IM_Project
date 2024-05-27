@@ -61,34 +61,24 @@ with col2:
     # Fetch and display the record
     if st.button("Fetch Record"):
         record, columns = fetch_record(table, record_id)
-        if record is not None and columns is not None:
-            st.session_state.record = record
-            st.session_state.columns = columns
-            # Reset session state
-            st.session_state.selected_fields = []
-            st.session_state.new_values = {}
-        else:
+        if record is None and columns is None:
             st.warning(f"No record found with ID {record_id} in {table} table")
-
-    st.write(" ")
-    st.write(" ")
-
-    # Display the fetched record
-    if st.session_state.record is not None and st.session_state.columns is not None:
-        record_df = pd.DataFrame([st.session_state.record], columns=st.session_state.columns)
+        record_df = pd.DataFrame(record, columns)
         st.write(record_df)
 
+        st.write(" ")
+        st.write(" ")
 
-    # Confirm deletion
-    if st.button("Delete Record"):
-        if record_id:
-            success, message = delete_record(table, record_id)
-            if success:
-                st.success(message)
+        # Confirm deletion
+        if st.button("Delete Record"):
+            if record_id:
+                success, message = delete_record(table, record_id)
+                if success:
+                    st.success(message)
+                else:
+                    st.error(message)
             else:
-                st.error(message)
-        else:
-            st.warning("Please enter a valid record ID")
+                st.warning("Please enter a valid record ID")
 
 st.write(" ")
 st.write(" ")

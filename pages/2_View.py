@@ -67,7 +67,11 @@ col1.markdown("<h1 style='color: blue; text-align: center;'>TESDA Dashboard</h1>
 col2.metric("Courses Offered", len(application_df['Assessment_Title'].unique()), "Assessments")
 col3.metric("Total Learners", len(learners_df), "Learners")
 col4.metric("Total Applications", len(application_df), "Applications")
-col5.metric("Average Age of Learners", round(learners_df['Age'].mean()), "Age")
+# Check if there are any NaN values in the 'Age' column
+if len(learners_df) == 0:
+    col5.metric("Average Age of Learners", "--", "Age")
+else:
+    col5.metric("Average Age of Learners", round(learners_df['Age'].mean()), "Age")
 
 st.write(" ")
 st.write(" ")
