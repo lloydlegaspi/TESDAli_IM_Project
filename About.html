@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .stApp {
+            background-image: url('https://i.ibb.co/BCt1VdS/Dark-Blue-Modern-Geometric-Simple-Feature-Section-Website-UI-Prototype-1.png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 300% 300%;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 10px;
+            border-radius: 10px;
+            color: #05174B;
+        }
+        .logo-text-container {
+            display: flex;
+            align-items: center;
+            margin-left: 50px;
+        }
+        .logo img {
+            width: 40px;
+            margin-right: 20px;
+        }
+        .text-container {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        .text-container p {
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+        .navigation {
+            display: flex;
+            margin-bottom: 20px;
+            margin-right: 60px;
+            gap: 20px;
+        }
+        .navigation a {
+            margin-top: 30px;
+            text-decoration: none;
+            color: #05174B; /* Default text color */
+            font-size: 12px;
+            border-radius: 15px; /* Rounded corners */
+            padding: 8px 10px; /* Add padding for better appearance */
+        }
+        .navigation a.selected {
+            background-color: #5C6B8B; /* Background color for selected link */
+            color: #FFFFFF; /* Text color for selected link */
+        }
+        .navigation a:hover {
+            background-color: #1A4793; /* Background color on hover */
+            color: #FFFFFF; /* Text color on hover */
+        }
+        .title {
+            margin-top: 50px;
+            text-align: center;
+            max-width: 800px; /* Limit maximum width */
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+            color: #05174B;
+        }
+        .description-container {
+            color: black;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
+            margin: 0 auto; /* Center horizontally */
+            max-width: 800px; /* Limit maximum width */
+            width: 100%; /* Match the width of the title */
+            margin-top: 40px;
+        }
+        .description p {
+            text-indent: 50px;
+            text-align: justify;
+            line-height: 1.5;
+        }
+
+        .developer-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .developer {
+            margin-right: 10px;
+            margin-left: 10px;
+            text-align: center;
+            width: 150px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px; /* Add margin bottom to create space between rectangles */
+        }
+
+        .developer img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .developer-name {
+            font-size: 16px;
+            color: #365486;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .social-icons img {
+            width: 30px;
+            height: 30px;
+            border-radius: 0px;
+        }
+        h2 {
+            color: #05174B;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        footer {
+            background-color: #253C64;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 12px;
+            color: #FFFFFF;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 80px;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-image { 
+            animation: fadeIn ease 3s;
+            animation-fill-mode: forwards;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-text-container">
+            <div class="logo">
+                <img src="https://edgedavao.net/wp-content/uploads/2018/07/37768545_1284993581638137_4466808018389958656_n-2.png" alt="Logo">
+            </div>
+            <div class="text-container">
+                <p>Republic of the Philippines</p>
+                <p><b>TECHNICAL EDUCATION AND SKILLS DEVELOPMENT AUTHORITY</b></p>
+                <p>Pangasiwaan sa Edukasyong Teknikal at Pagpapaunlad ng Kasanayan</p>
+            </div>
+        </div>
+        <div class="navigation">
+            <a href="/Home" target="self">Home</a>
+            <a href="/Application" target="self">Application</a>
+            <a href="/About" target="self" class="selected">About</a>
+        </div>
+    </header>
+
+<div class="title">
+        <div class="fade-in-image">
+            <h1>TESDAli: A Streamlined TESDA Assessment Application Management System</h1>
+        </div>
+</div>
+    
+<div class="fade-in-image">
+        <div class="description-container"> <!-- Container with white background and shadow -->
+            <div class="description">
+                <p>TESDA, the Technical Education and Skills Development Authority, is the government agency tasked with overseeing technical vocational education and training. This project aims to develop a database system to streamline TESDA Assessments Application Forms. This form is a requisite document for candidates seeking Assessment and Certification for their TESDA-completed training, particularly new applicants. Notably, this form is crucial not only for initial applications but also for candidates renewing or revalidating their National Certificate (NC) issued by their training institution.
+                </p>
+            </div>
+        </div>
+</div>
+    
+<div class="fade-in-image">
+    <h2>Meet the Developers</h2>
+    <div class="developer-container">
+        <div class="developer">
+            <img src="https://i.ibb.co/hVNJSd9/1.png" alt="1" border="0"></a>
+            <div class="developer-name">Chynna Mae Doria</div>
+            <div class="social-icons">
+                <a href="https://github.com"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
+                <a href="https://linkedin.com"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
+                <a href="mailto:chynnad@example.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+            </div>
+        </div>
+        <div class="developer">
+            <img src="https://i.ibb.co/WBwmXpb/2.png" alt="2" border="0"></a>
+            <div class="developer-name">John Lloyd Legaspi</div>
+            <div class="social-icons">
+                <a href="https://github.com"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
+                <a href="https://linkedin.com"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
+                <a href="mailto:johnlloyd@example.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+            </div>
+        </div>
+        <div class="developer">
+            <img src="https://i.ibb.co/0BD47Zr/3.png" alt="3" border="0"></a>
+            <div class="developer-name">Paul Angelo Macaraeg</div>
+            <div class="social-icons">
+                <a href="https://github.com"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
+                <a href="https://linkedin.com"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
+                <a href="mailto:paulangelo@example.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+            </div>
+        </div>
+        <div class="developer">
+            <img src="https://i.ibb.co/6nfxfM9/4.png" alt="4" border="0"></a>
+            <div class="developer-name">Kyla Mae Valoria</div>
+            <div class="social-icons">
+                <a href="https://github.com"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
+                <a href="https://linkedin.com"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
+                <a href="mailto:kylamae@example.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<footer>
+        This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
+</footer>
+    
+    
+
