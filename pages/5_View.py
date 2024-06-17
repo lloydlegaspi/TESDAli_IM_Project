@@ -131,9 +131,9 @@ st.markdown("""
             </div>
         </div>
         <div class="navigation">
-            <a href="/Home" target="self">Home</a>
-            <a href="/Application" target="self" class="selected">Application</a>
-            <a href="/About" target="self">About</a>
+            <a href="/Home" target="_self">Home</a>
+            <a href="/Application" target="_self" class="selected">Application</a>
+            <a href="/About" target="_self">About</a>
         </div>
     </header>
 """, unsafe_allow_html=True)
