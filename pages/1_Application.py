@@ -120,19 +120,9 @@ st.markdown("""
 st.markdown("<h1 style='line-height: 1.2; text-align: center; color: #05174B;'>TESDAli: A Streamlined TESDA Assessment</br> Application Management System</h1>", unsafe_allow_html=True)
 st.markdown("<h4 style='line-height: 1.2; text-align: center; color: #05174B;'>Main Menu</h4>", unsafe_allow_html=True)
 
-st.write(" ")
-st.write(" ")
-
-col1, col2, col3 = st.columns([1, 1, 1])
-
-import streamlit as st
-
 col1, col2, col3 = st.columns([1, 1, 1])
 
 with col2:
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
     if st.button("Add a Record", use_container_width=True):
         switch_page("Insert")
     elif st.button("View Records", use_container_width=True):
@@ -142,21 +132,28 @@ with col2:
     elif st.button("Delete a Record", use_container_width=True):
         switch_page("Delete")
 
-# Footer
-st.markdown("""
-<style>
-    footer {
-        background-color: #253C64;
+import streamlit as st
+
+def render_footer():
+    st.markdown("""
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #253C64; /* Background color */
+        color: #FFFFFF; /* Text color */
         text-align: center;
-        margin: 20px 0;
-        font-size: 12px;
-        color: #FFFFFF;
+        font-size: 12px; /* Font size */
         padding: 30px;
-        border-radius: 10px;
-        margin-top: 80px;
+        border-radius: 10px; /* Border radius */
     }
-</style>
-<footer>
+    </style>
+    <div class="footer">
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
-</footer>
-""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
+
+# Render footer
+render_footer()
