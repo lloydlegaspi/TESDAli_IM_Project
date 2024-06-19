@@ -358,6 +358,13 @@ with tab3:
         japaneseCoursedf = pd.DataFrame(japaneseCoursedata, columns=japaneseCoursecolumns)
         st.dataframe(japaneseCoursedf, height=300, hide_index=True, use_container_width=True)
     
+    with st.expander("TESDA Report on Applicants with Over 5 Years of Work Experience"):
+        st.divider()
+        st.write("Identify applicants who have accumulated more than 5 years of work experience. They need a report that includes the name of the applicant, the address of the applicant, the email of the applicant, and the sum of their work years. Display only the applicants whose sum of work years is greater than 5 years. Sort by total work years in descending order.")
+        learnersOver5Yearsdata, learnersOver5Yearscolumns = fetch_learners_with_over_5_years_work_exp()
+        learnersOver5Yearsdf = pd.DataFrame(learnersOver5Yearsdata, columns=learnersOver5Yearscolumns)
+        st.dataframe(learnersOver5Yearsdf, height=300, hide_index=True, use_container_width=True)
+    
     with st.expander("Number of Learners in Different Training Centers"):
         st.divider()
         st.write("Display the number of learners enrolled in different training centers.")

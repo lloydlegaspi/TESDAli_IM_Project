@@ -603,6 +603,39 @@ def fetch_applications_with_japanese_courses():
     finally:
         if conn:
             conn.close()
+    
+def fetch_learners_with_over_5_years_work_exp():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT
+                l.Name AS 'Applicant Name',
+                l.Address AS 'Applicant Address',
+                l.Email AS 'Applicant Email',
+                SUM(w.Work_Years) AS 'Total Work Years'
+            FROM
+                learners l, work_exp w
+            WHERE
+                l.Learners_ID = w.Learners_ID
+            GROUP BY
+                l.Name, l.Address, l.Email
+            HAVING SUM(w.Work_Years) > 5
+            ORDER BY
+                SUM(w.Work_Years) DESC;
+
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching learners with over 5 years of work experience: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
 
 def fetch_learners_in_training_centers():
     try:
