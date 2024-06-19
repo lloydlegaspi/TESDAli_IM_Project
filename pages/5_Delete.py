@@ -140,6 +140,12 @@ st.write(" ")
 
 st.markdown("<h1 style='color: blue; text-align:center;'>Delete a Record</h1>", unsafe_allow_html=True)
 
+# Initialize session state for selected record
+if 'record' not in st.session_state:
+    st.session_state.record = None
+if 'columns' not in st.session_state:
+    st.session_state.columns = None
+    
 col1, col2, col3 = st.columns([1, 5, 1])
 with col2:
     # Select table
@@ -151,24 +157,30 @@ with col2:
     # Fetch and display the record
     if st.button("Fetch Record"):
         record, columns = fetch_record(table, record_id)
-        if record is None and columns is None:
+        if record is not None and columns is not None:
+            st.session_state.record = record
+            st.session_state.columns = columns
+        else:
             st.warning(f"No record found with ID {record_id} in {table} table")
-        record_df = pd.DataFrame(record, columns)
+
+    st.write(" ")
+    st.write(" ")
+
+    # Display the fetched record
+    if st.session_state.record is not None and st.session_state.columns is not None:
+        record_df = pd.DataFrame([st.session_state.record], columns=st.session_state.columns)
         st.write(record_df)
 
-        st.write(" ")
-        st.write(" ")
-
-        # Confirm deletion
+        # Confirm and delete the record
         if st.button("Delete Record"):
-            if record_id:
-                success, message = delete_record(table, record_id)
-                if success:
-                    st.success(message)
-                else:
-                    st.error(message)
+            success, message = delete_record(table, record_id)
+            if success:
+                st.success(message)
+                # Reset session state
+                st.session_state.record = None
+                st.session_state.columns = None
             else:
-                st.warning("Please enter a valid record ID")
+                st.error(message)
 
 st.write(" ")
 st.write(" ")
