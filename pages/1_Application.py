@@ -132,8 +132,6 @@ with col2:
     elif st.button("Delete a Record", use_container_width=True):
         switch_page("Delete")
 
-import streamlit as st
-
 def render_footer():
     st.markdown("""
     <style>
@@ -154,6 +152,4 @@ def render_footer():
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
     </div>
     """, unsafe_allow_html=True)
-
-# Render footer
 render_footer()

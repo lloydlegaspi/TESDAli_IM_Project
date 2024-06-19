@@ -421,27 +421,28 @@ if submit_button:
     output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
            Assessment_Status, Client_Type, Name, Address, Mothers_Name, Fathers_Name, Sex, Civil_Status,
            Tel_No, Mobile_No, Email, Fax_No, Education, Emp_Status, Birth_Date, Birth_Place, Age, edited_df)
-    
 
-# Footer
-st.markdown("""
-<style>
-    footer {
-        background-color: #253C64;
+def render_footer():
+    st.markdown("""
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #253C64; /* Background color */
+        color: #FFFFFF; /* Text color */
         text-align: center;
-        margin: 20px 0;
-        font-size: 12px;
-        color: #FFFFFF;
+        font-size: 12px; /* Font size */
         padding: 30px;
-        border-radius: 10px;
-        margin-top: 50px;
+        border-radius: 10px; /* Border radius */
     }
-</style>
-<footer>
+    </style>
+    <div class="footer">
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
-</footer>
-""", unsafe_allow_html=True)
-     
+    </div>
+    """, unsafe_allow_html=True)
+render_footer()
 
     
 
