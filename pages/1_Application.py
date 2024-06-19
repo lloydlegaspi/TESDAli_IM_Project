@@ -118,21 +118,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("<h1 style='line-height: 1.2; text-align: center; color: #05174B;'>TESDAli: A Streamlined TESDA Assessment</br> Application Management System</h1>", unsafe_allow_html=True)
-st.markdown("<h4 style='line-height: 1.2; text-align: center; color: #05174B;'>Main Menu</h4>", unsafe_allow_html=True)
-
-st.write(" ")
-st.write(" ")
-
-col1, col2, col3 = st.columns([1, 1, 1])
-
-import streamlit as st
+st.markdown("<h4 style='text-align: center; color: #05174B;'>Main Menu</h4>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns([1, 1, 1])
 
 with col2:
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
     if st.button("Add a Record", use_container_width=True):
         switch_page("Insert")
     elif st.button("View Records", use_container_width=True):

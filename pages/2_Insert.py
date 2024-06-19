@@ -161,12 +161,10 @@ st.write("Please provide accurate and complete information for each section belo
 
 with st.form("application_form", clear_on_submit=True):
     st.markdown("<h1 style='color: blue;'>APPLICATION FORM</h1>", unsafe_allow_html=True)
-    col1, col2, col3, col4, col5 = st.columns([2, .2, 2, .2, 2])
+    col1, col2= st.columns([1, 1])
     with col1:
-        Ref_No = st.text_input("REFERENCE NUMBER*", placeholder="System-generated", disabled=True)
-    with col3:
         Learners_ID = st.text_input("UNIQUE LEARNERS IDENTIFIER (ULI)*")
-    with col5:
+    with col2:
         Application_Date = st.date_input("Date of Application*")
         
     st.write(" ")
@@ -418,7 +416,7 @@ def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Addr
         st.success("Form submitted successfully!")
         
 if submit_button:
-    output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
+    output(Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
            Assessment_Status, Client_Type, Name, Address, Mothers_Name, Fathers_Name, Sex, Civil_Status,
            Tel_No, Mobile_No, Email, Fax_No, Education, Emp_Status, Birth_Date, Birth_Place, Age, edited_df)
     
