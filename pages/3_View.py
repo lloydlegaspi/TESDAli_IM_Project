@@ -371,6 +371,13 @@ with tab3:
         learnersMultipleTrainingCenterdata, learnersMultipleTrainingCentercolumns = fetch_learners_with_multiple_training_centers()
         learnersMultipleTrainingCenterdf = pd.DataFrame(learnersMultipleTrainingCenterdata, columns=learnersMultipleTrainingCentercolumns)
         st.dataframe(learnersMultipleTrainingCenterdf, height=300, hide_index=True, use_container_width=True)
+        
+    with st.expander("Analysis of Learners with Significant Work Experience and High Salaries in Makati-Based Training Centers Post-2020"):
+        st.divider()
+        st.write("Display learner’s ID, application date, name, email and the count of work experiences of applicants that have applied after 2020 and have multiple work experiences with salaries exceeding 50,000 pesos.")
+        learnersSignificantWorkExpdata, learnersSignificantWorkExpcolumns = fetch_learners_with_significant_work_exp()
+        learnersSignificantWorkExpdf = pd.DataFrame(learnersSignificantWorkExpdata, columns=learnersSignificantWorkExpcolumns)
+        st.dataframe(learnersSignificantWorkExpdf, height=300, hide_index=True, use_container_width=True)
     
     with st.expander("Analysis of Assessments for Overseas Filipino Workers (OFWs) by Training Center"):
         st.divider()

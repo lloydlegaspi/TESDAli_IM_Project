@@ -648,6 +648,30 @@ def fetch_learners_with_multiple_training_centers():
     finally:
         if conn:
             conn.close()
+
+def fetch_learners_with_significant_work_exp():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT a.Learners_ID, a.Application_Date, l.Name, l.Email, COUNT(w.Work_Exp_Code) AS 'Work Experience'
+            FROM learners AS l, application AS a, work_exp AS w
+            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID AND YEAR(a.Application_Date) > 2020 AND a.Training_Address LIKE '%Makati%' AND w.Salary > 50000
+            GROUP BY  a.Learners_ID, a.Application_Date, l.Name, l.Email
+            HAVING COUNT(w.Work_Exp_Code)  > 1 ;
+
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching learners with significant work experience: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
             
 def fetch_assessment_activities_of_OFWs():
     try:
