@@ -11,24 +11,30 @@
             font-family: Arial, sans-serif;
         }
         .stApp {
-            background-image: url('https://i.ibb.co/BCt1VdS/Dark-Blue-Modern-Geometric-Simple-Feature-Section-Website-UI-Prototype-1.png');
+            background-image: url('https://i.imgur.com/LmSlYc7.jpg');
             background-position: center center;
             background-repeat: no-repeat;
             background-size: 300% 300%;
         }
         header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 10px;
-            border-radius: 10px;
-            color: #05174B;
-        }
+        display: flex;
+        background: rgba(255, 255, 255, 0.9); 
+        color: #05174B;
+        width: 100%; 
+        padding: 10px 0;
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        right: 0; 
+        z-index: 1000; 
+        transition: top 0.3s; 
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+    }
         .logo-text-container {
             display: flex;
             align-items: center;
-            margin-left: 50px;
+            margin-right: auto;
+            margin-left: 75px;
         }
         .logo img {
             width: 40px;
@@ -44,39 +50,40 @@
             padding: 0;
         }
         .navigation {
+            align-items: right;
             display: flex;
             margin-bottom: 20px;
-            margin-right: 60px;
+            margin-left: auto;
+            margin-right: 75px;
             gap: 20px;
         }
         .navigation a {
-            margin-top: 30px;
+            margin-top: 25px;
             text-decoration: none;
-            color: #05174B; /* Default text color */
-            font-size: 12px;
-            border-radius: 15px; /* Rounded corners */
-            padding: 8px 10px; /* Add padding for better appearance */
+            color: #05174B;
+            font-size: 13px; 
+            border-radius: 15px;
+            padding: 8px 10px; 
         }
         .navigation a.selected {
-            background-color: #5C6B8B; /* Background color for selected link */
-            color: #FFFFFF; /* Text color for selected link */
+            background-color: #5C6B8B; 
+            color: #FFFFFF; 
         }
         .navigation a:hover {
-            background-color: #1A4793; /* Background color on hover */
-            color: #FFFFFF; /* Text color on hover */
+            background-color: #1A4793; 
+            color: #FFFFFF; 
         }
         .content {
             background-color: #1A4793;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
-            margin: 20px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-left: 150px;
-            margin-right: 150px;
+            margin-left: auto;
+            margin-right: auto;
             flex: 1;
-            margin-top: 40px;
+            margin-top: 130px;
+            max-width: 85%;
         }
         .content-left {
             flex: 1;
@@ -86,7 +93,7 @@
         }
         .content-left h1 {
             color: #FFFFFF;
-            font-size: 30px;
+            font-size: 15px;
         }
         .content-left p {
             font-size: 14px;
@@ -101,7 +108,7 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            margin-top: 30px;
+            margin-top: 40px;
             transition: background-color 0.3s ease, color 0.3s ease;
             margin-bottom: 10px;
         }
@@ -113,15 +120,14 @@
             width: 20px;
             height: 20px;
             margin-bottom: 10px;
-            
         }
         .content-right {
-            flex: 1;
+            margin-left: auto;
             overflow: hidden;
         }
         .content-right img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 400px;
+            max-height: 400px;
         }
         .features {
             margin-left: 150px;
@@ -129,7 +135,6 @@
             text-align: center;
             margin-top: 120px;
             color: #05174B;
-            flex-grow: 1;
         }
         .features h2 {
             margin-bottom: 30px;
@@ -147,6 +152,8 @@
             padding: 20px;
             width: 200px;
             text-align: center;
+            margin-left: auto;
+            margin-right: auto;
             margin-bottom: 50px;
         }
         .feature-box img {
@@ -168,11 +175,11 @@
         footer {
             background-color: #253C64;
             text-align: center;
-            margin: 20px 0;
             font-size: 12px;
             color: #FFFFFF;
-            padding: 30px;
-            border-radius: 10px;
+            margin-top: 50px;
+            padding-top: 20px;
+            padding-bottom: 50px;
         }
         @keyframes fadeIn {
             0% {
@@ -215,7 +222,7 @@
     <div class="fade-in-image">
         <div class="content">
             <div class="content-left">
-                <h1 style="font-size: 2.8em;">TESDAli: A Streamlined TESDA Assessment Application Management System</h1>
+                <h1 style="font-size: 2.4em;">TESDAli: A Streamlined TESDA Assessment Application Management System</h1>
                 <p>TESDA, the Technical Education and Skills Development Authority, is the government agency tasked with overseeing 
                     technical vocational education and training. TESDA aims to cultivate Filipino workforce with world-class competence and positive work values.</p>
                 <a href="/Application" target="_self" style="text-decoration: none;">
@@ -228,7 +235,7 @@
                 </a>
             </div>
             <div class="content-right">
-                <img src="https://i.ibb.co/JBtfBbM/Black-White-Square-Interior-Designer-Logo-3.png" alt="Black-White-Square-Interior-Designer-Logo-3" border="0">
+                <img src="https://i.imgur.com/xwTMoyb.png" alt="Black-White-Square-Interior-Designer-Logo-3" border="0">
             </div>
         </div>
     </div>
@@ -237,22 +244,22 @@
             <h2>TESDAli Features</h2>
             <div class="feature-boxes">
                 <div class="feature-box">
-                    <img src="https://i.ibb.co/kxpVqcr/10.png" alt="Feature 1 Icon">
+                    <img src="https://i.imgur.com/FCEeDXf.png" alt="Feature 1 Icon">
                     <h3>Efficient Management</h3>
                     <p>Streamline and organize TESDA assessment applications seamlessly for efficiency.</p>
                 </div>
                 <div class="feature-box">
-                    <img src="https://i.ibb.co/HKDM7xd/11.png" alt="Feature 2 Icon">
+                    <img src="https://i.imgur.com/7FERx25.png" alt="Feature 2 Icon">
                     <h3>Real-Time Dashboard</h3>
                     <p>Monitor application statuses and progress in real-time with an intuitive dashboard.</p>
                 </div>
                 <div class="feature-box">
-                    <img src="https://i.ibb.co/q5PSWHP/12.png" alt="Feature 3 Icon">
+                    <img src="https://i.imgur.com/O0LFC8p.png" alt="Feature 3 Icon">
                     <h3>Database Integration</h3>
                     <p>Create, read, update, and delete records efficiently with the reliable database integration.</p>
                 </div>
                 <div class="feature-box">
-                    <img src="https://i.ibb.co/VJwxD3t/13.png" alt="Feature 4 Icon">
+                    <img src="https://i.imgur.com/gZ6d3iS.png" alt="Feature 4 Icon">
                     <h3>Corrections Made Easy</h3>
                     <p>Easily edit and make corrections to applications to maintain data accuracy and completeness.</p>
                 </div>
