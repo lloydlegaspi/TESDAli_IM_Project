@@ -228,13 +228,13 @@ with col1:
     if st.button("Back to Home", use_container_width=True):
         switch_page("Home")
 with col2:
-    st.button("Add a Record", disabled=True, use_container_width=True)
+    if st.button("Add a Record", use_container_width=True):
+        switch_page("Add")
 with col3:
     if st.button("View Records", use_container_width=True):
         switch_page("View")
 with col4:
-    if st.button("Update a Record", use_container_width=True):
-        switch_page("Update")
+    st.button("Update a Record", disabled=True, use_container_width=True)
 with col5:
     if st.button("Delete a Record", use_container_width=True):
         switch_page("Delete")

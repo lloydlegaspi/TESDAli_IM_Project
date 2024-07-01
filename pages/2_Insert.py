@@ -82,7 +82,7 @@ m = st.markdown("""
     
             header {
         display: flex;
-        background: rgba(255, 255, 255, 0.9); 
+        background: #FFFFFF; 
         color: #05174B;
         width: 100%; 
         padding: 10px 0;

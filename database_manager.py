@@ -490,7 +490,134 @@ def fetch_avg_salary_by_emp_status():
     finally:
         if conn:
             conn.close()
+
+#Generated Reports
+# Easy
+def fetch_applicants_with_managerial_positions():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT 
+                Learners_ID, Position, Work_Years, Salary
+            FROM 
+                work_exp
+            WHERE 
+                Position LIKE '%Manager%'AND Work_Years >= 3
+            ORDER BY
+                Salary DESC;
+
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching applicants with managerial positions: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
             
+def fetch_industry_workers_in_CALABARZON():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT Name, Age, Address, Mobile_No, Email
+            FROM Learners
+            WHERE Address LIKE '%Cavite' OR Address LIKE '%Laguna' OR Address LIKE '%Batangas' OR Address LIKE '%Rizal' OR Address LIKE '%Quezon'
+            AND Client_Type = 'IW'
+            ORDER BY Name;
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching industry workers in CALABARZON: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
+
+
+# Moderate
+
+def fetch_applicants_demographics_per_client_type():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT 
+                Client_Type,
+                Sex,
+                COUNT(*) AS Number_Of_Learners,
+                AVG(Age) AS Average_Age
+            FROM 
+                Learners
+            WHERE 
+                Age > 18
+            GROUP BY 
+                Client_Type, 
+                Sex
+            HAVING 
+                COUNT(*) > 1
+            ORDER BY 
+                Client_Type,  
+                Average_Age DESC;
+
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching applicants demographics per client type: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
+
+
+def fetch_applications_programming_networking():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT 
+                Training_Center,
+                Assessment_Title,
+                COUNT(Ref_No) AS Total_Applications
+            FROM 
+                application
+            WHERE 
+                YEAR(Application_Date) = 2024 AND MONTH(Application_Date) BETWEEN 04 AND 06
+                AND (Assessment_Title LIKE '%Programming%' OR Assessment_Title LIKE '%Networking%')
+            GROUP BY 
+                Training_Center, Assessment_Title
+            HAVING 
+                COUNT(Ref_No) > 3
+            ORDER BY 
+                Total_Applications DESC;
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching applications: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
+
+
+# Difficult
 def fetch_avg_salary_by_education_and_emp_status():
     try:
         conn = connect_to_database()
@@ -569,7 +696,7 @@ def fetch_learners_with_limited_work_opp():
     finally:
         if conn:
             conn.close()
-            
+   
 def fetch_applications_with_japanese_courses():
     try:
         conn = connect_to_database()
@@ -733,48 +860,6 @@ def fetch_assessment_activities_of_OFWs():
             return result, columns
     except connector.Error as e:
         print(f"Error fetching assessment activities of OFWs: {e}")
-        return []
-    finally:
-        if conn:
-            conn.close()
-
-def fetch_learners_interested_in_programming():
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-            SELECT
-                l.Learners_ID,
-                l.Name,
-                l.Age,
-                l.Email,
-                l.Mobile_No,
-                SUM(w.Work_Years) AS Total_Work_Years
-            FROM
-                learners l, application a, work_exp w
-            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID
-            AND
-                (a.Training_Address LIKE '%Cavite' OR
-                a.Training_Address LIKE '%Laguna' OR
-                a.Training_Address LIKE '%Batangas' OR
-                a.Training_Address LIKE '%Rizal' OR
-                a.Training_Address LIKE '%Quezon')
-            AND l.Education NOT LIKE '%College%'
-            AND a.Assessment_Title LIKE '%Programming%'
-            AND YEAR(Application_Date) = 2024 AND MONTH(Application_Date) BETWEEN 04 AND 06
-            GROUP BY
-                l.Learners_ID, l.Name, l.Age, l.Email, l.Mobile_No
-            HAVING Total_Work_Years <= 1
-            ORDER BY
-                l.Name;
-            """)
-            result = cursor.fetchall()
-            columns = cursor.column_names
-            cursor.close()
-            return result, columns
-    except connector.Error as e:
-        print(f"Error fetching learners interested in programming: {e}")
         return []
     finally:
         if conn:
