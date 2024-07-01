@@ -34,19 +34,19 @@ def create_tables():
             cursor.execute("""
             CREATE TABLE IF NOT EXISTS Learners (
                 Learners_ID INT PRIMARY KEY,
-                Client_Type VARCHAR(6) NOT NULL,
+                Client_Type VARCHAR(6) NOT NULL CHECK (Client_Type IN ('TVETGS', 'TVETG', 'IW', 'K-12', 'OWF')),
                 Name VARCHAR(50) NOT NULL,
                 Address VARCHAR(100) NOT NULL,
                 Mothers_Name VARCHAR(50) NOT NULL,
                 Fathers_Name VARCHAR(50) NOT NULL,
-                Sex CHAR(1) NOT NULL,
-                Civil_Status VARCHAR(2) NOT NULL,
+                Sex CHAR(1) NOT NULL CHECK (Sex IN ('M', 'F')),
+                Civil_Status VARCHAR(2) NOT NULL CHECK (Civil_Status IN ('S', 'M', 'W', 'SP')),
                 Tel_No VARCHAR(12) DEFAULT 'N/A',
                 Mobile_No VARCHAR(13) DEFAULT 'N/A',
                 Email VARCHAR(25) NOT NULL,
                 Fax_No VARCHAR(9) DEFAULT 'N/A',
                 Education VARCHAR(30) NOT NULL,
-                Emp_Status VARCHAR(3) NOT NULL,
+                Emp_Status VARCHAR(3) NOT NULL CHECK (Emp_Status IN ('C', 'JO', 'PR', 'P', 'SE', 'OFW')),
                 Birth_Date DATE NOT NULL,
                 Birth_Place VARCHAR(50) NOT NULL,
                 Age INT NOT NULL
@@ -60,7 +60,7 @@ def create_tables():
                 Training_Center VARCHAR(80) NOT NULL,
                 Training_Address VARCHAR(100) NOT NULL,
                 Assessment_Title VARCHAR(50) NOT NULL,
-                Assessment_Status VARCHAR(3) NOT NULL,
+                Assessment_Status VARCHAR(3) NOT NULL CHECK (Assessment_Status IN ('FQ', 'COC', 'R')),
                 Learners_ID INT,
                 FOREIGN KEY (Learners_ID) REFERENCES Learners(Learners_ID)
                     ON UPDATE CASCADE
@@ -76,7 +76,7 @@ def create_tables():
                 Start_Date DATE NOT NULL,
                 End_Date DATE NOT NULL,
                 Salary DECIMAL(8, 2) NOT NULL,
-                Appt_Status VARCHAR(3) NOT NULL,
+                Appt_Status VARCHAR(3) NOT NULL CHECK (Appt_Status IN ('C', 'JO', 'PR', 'P', 'SE', 'OFW')),
                 Work_Years INT NOT NULL,
                 Learners_ID INT NOT NULL,
                 FOREIGN KEY (Learners_ID) REFERENCES Learners(Learners_ID)

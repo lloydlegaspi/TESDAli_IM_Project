@@ -326,7 +326,7 @@ with col5:
         switch_page("Delete")
 
 @st.experimental_dialog("Submitted Information", width="large")
-def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
+def output(Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
            Assessment_Status, Client_Type, Name, Address, Mothers_Name, Fathers_Name, Sex, Civil_Status,
            Tel_No, Mobile_No, Email, Fax_No, Education, Emp_Status, Birth_Date, Birth_Place, Age, edited_df):
    
@@ -374,7 +374,6 @@ def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Addr
     
     edited_df['Appt Status'] = edited_df['Appt Status'].map(employment_status_mapping)
     
-    st.write(f"Reference Number: {Ref_No}")
     st.write(f"Unique Learners Identifier: {Learners_ID}")
     st.write(f"Date of Application: {Application_Date}")
     st.write(f"Name of School/Training Center/Company: {Training_Center}")
@@ -412,16 +411,17 @@ def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Addr
                                 Learners_ID)
         
         # Insert data into Work_Experience table
-        for index, row in edited_df.iterrows():
-            comp_name = row['Comp_Name']
-            position = row['Position']
-            start_date = row['Start_Date']
-            end_date = row['End_Date']
-            salary = row['Salary']
-            appt_status = row['Appt Status']
-            work_years = row['Work_Years']
-            insert_into_work_experience(comp_name, position, start_date, end_date, salary, appt_status, work_years, Learners_ID)
-        
+        if not edited_df.empty:
+            for index, row in edited_df.iterrows():
+                comp_name = row['Comp_Name']
+                position = row['Position']
+                start_date = row['Start_Date']
+                end_date = row['End_Date']
+                salary = row['Salary']
+                appt_status = row['Appt Status']
+                work_years = row['Work_Years']
+                insert_into_work_experience(comp_name, position, start_date, end_date, salary, appt_status, work_years, Learners_ID)
+            
         st.success("Form submitted successfully!")
         
 if submit_button:
@@ -452,7 +452,7 @@ st.markdown("""
 hide_streamlit_bar = """
     <style>
     /* Hide the Streamlit top bar using its specific class */
-    .st-emotion-cache-ttupiz {
+    .st-emotion-cache-uc1cuc {
         display: none !important;
     }
     /* Optional: Adjust the main content area if necessary */

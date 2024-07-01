@@ -174,7 +174,7 @@ col5.metric("Learners' Average Age", average_age, "Age")
 st.write(" ")
 st.write(" ")
 
-tab1, tab2, tab3 = st.tabs(["Application Summary", "Learners' Profile", "Others"])
+tab1, tab2, tab3 = st.tabs(["Application Summary", "Learners' Profile", "Generated Reports"])
 
 with tab1:
     col1, col2 = st.columns(2)
@@ -448,7 +448,7 @@ st.markdown("""
 hide_streamlit_bar = """
     <style>
     /* Hide the Streamlit top bar using its specific class */
-    .st-emotion-cache-ttupiz {
+    .st-emotion-cache-uc1cuc {
         display: none !important;
     }
     /* Optional: Adjust the main content area if necessary */

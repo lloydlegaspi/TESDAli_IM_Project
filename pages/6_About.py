@@ -16,7 +16,7 @@ if __name__ == "__main__":
 hide_streamlit_bar = """
     <style>
     /* Hide the Streamlit top bar using its specific class */
-    .st-emotion-cache-ttupiz {
+    .st-emotion-cache-uc1cuc {
         display: none !important;
     }
     /* Optional: Adjust the main content area if necessary */
