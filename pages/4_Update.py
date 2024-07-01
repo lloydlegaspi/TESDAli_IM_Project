@@ -74,6 +74,7 @@ m = st.markdown("""
         z-index: 1000; 
         transition: top 0.3s; 
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+        padding-top: 50px;
     }
         .logo-text-container {
             display: flex;
@@ -142,6 +143,8 @@ st.markdown("""
     </header>
 """, unsafe_allow_html=True)
 
+st.write(" ")
+st.write(" ")
 st.write(" ")
 st.write(" ")
 

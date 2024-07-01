@@ -80,7 +80,7 @@ m = st.markdown("""
         top:3px;
     }
     
-            header {
+    header {
         display: flex;
         background: rgba(255, 255, 255, 0.9); 
         color: #05174B;
@@ -93,6 +93,7 @@ m = st.markdown("""
         z-index: 1000; 
         transition: top 0.3s; 
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+        padding-top: 50px;
     }
 
         .logo-text-container {
