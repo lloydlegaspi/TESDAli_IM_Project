@@ -39,7 +39,7 @@ m = st.markdown("""
         color: #05174B;
         width: 100%; 
         padding: 10px 0;
-        position: fixed; 
+        position: top; 
         top: 0; 
         left: 0; 
         right: 0; 
@@ -126,7 +126,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<h1 style='line-height: 1.2; text-align: center; color: #05174B; margin-top: 100px;'>TESDAli: A Streamlined TESDA Assessment</br> Application Management System</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='line-height: 1.2; text-align: center; color: #05174B; margin-top: 50px;'>TESDAli: A Streamlined TESDA Assessment</br> Application Management System</h1>", unsafe_allow_html=True)
 st.markdown("<h4 style='text-align: center; color: #05174B;'>Main Menu</h4>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns([1, 1, 1])

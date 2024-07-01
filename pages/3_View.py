@@ -71,14 +71,13 @@ m = st.markdown("""
         color: #05174B;
         width: 100%; 
         padding: 10px 0;
-        position: fixed; 
+        position: top; 
         top: 0; 
         left: 0; 
         right: 0; 
         z-index: 1000; 
         transition: top 0.3s; 
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        padding-top: 50px;
     }
         .logo-text-container {
             display: flex;
