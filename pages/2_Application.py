@@ -1,39 +1,10 @@
 import streamlit as st
-from database_manager import *
 from streamlit_extras.switch_page_button import switch_page
-import pandas as pd
+from database_manager import *
+
+connect_to_database()
 
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
-logo_path = "images/logo.png"
-
-# Custom CSS for the button
-m = st.markdown("""
-    <style>
-    div.stButton > button:first-child {
-        box-shadow:inset 0px 1px 0px 0px #97c4fe;
-        background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
-        background-color:#3d94f6;
-        border-radius:6px;
-        border:1px solid #337fed;
-        display:inline-block;
-        cursor:pointer;
-        color:#ffffff;
-        font-family:Arial;
-        font-size:15px;
-        font-weight:bold;
-        padding:6px 24px;
-        text-decoration:none;
-        text-shadow:0px 1px 0px #1570cd;
-    }
-    div.stButton > button:hover {
-        background: linear-gradient(#378de5, #79bbff);
-    }
-    div.stButton > button:active {
-        position:relative;
-        top:3px;
-    }
-    
-    </style>""", unsafe_allow_html=True)
 
 # Custom CSS for the button and header
 m = st.markdown("""
@@ -76,7 +47,6 @@ m = st.markdown("""
         transition: top 0.3s; 
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
     }
-
         .logo-text-container {
             display: flex;
             align-items: center;
@@ -144,102 +114,46 @@ st.markdown("""
     </header>
 """, unsafe_allow_html=True)
 
-st.write(" ")
-st.write(" ")
+st.markdown("""
+    <style>
+        .stApp{
+            background-image: url('https://i.imgur.com/LmSlYc7.jpg');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 300% 300%;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-st.markdown("<h1 style='color: blue; text-align:center;'>Delete a Record</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='line-height: 1.2; text-align: center; color: #05174B; margin-top: 100px;'>TESDAli: A Streamlined TESDA Assessment</br> Application Management System</h1>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center; color: #05174B;'>Main Menu</h4>", unsafe_allow_html=True)
 
-# Initialize session state for selected record
-if 'record' not in st.session_state:
-    st.session_state.record = None
-if 'columns' not in st.session_state:
-    st.session_state.columns = None
-    
-col1, col2, col3 = st.columns([1, 5, 1])
-with col2:
-    # Select table
-    table = st.selectbox("Select Table", ["Learners", "Application", "Work_Exp"])
+col1, col2, col3 = st.columns([1, 1, 1])
 
-    # Enter record ID
-    record_id = st.number_input("Enter Record ID", min_value=1, step=1)
-
-    # Fetch and display the record
-    if st.button("Fetch Record"):
-        record, columns = fetch_record(table, record_id)
-        if record is not None and columns is not None:
-            st.session_state.record = record
-            st.session_state.columns = columns
-        else:
-            st.warning(f"No record found with ID {record_id} in {table} table")
-
-    st.write(" ")
-    st.write(" ")
-
-    # Display the fetched record
-    if st.session_state.record is not None and st.session_state.columns is not None:
-        record_df = pd.DataFrame([st.session_state.record], columns=st.session_state.columns)
-        st.write(record_df)
-
-        # Confirm and delete the record
-        if st.button("Delete Record"):
-            success, message = delete_record(table, record_id)
-            if success:
-                st.success(message)
-                # Reset session state
-                st.session_state.record = None
-                st.session_state.columns = None
-            else:
-                st.error(message)
-
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-
-# Navigation buttons
-col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1,])
-with col1:
-    if st.button("Back to Home", use_container_width=True):
-        switch_page("Home")
 with col2:
     if st.button("Add a Record", use_container_width=True):
-        switch_page("Add")
-with col3:
-    if st.button("View Records", use_container_width=True):
+        switch_page("Insert")
+    elif st.button("View Records", use_container_width=True):
         switch_page("View")
-with col4:
-    if st.button("Update a Record", use_container_width=True):
+    elif st.button("Update a Record", use_container_width=True):
         switch_page("Update")
-with col5:
-    st.button("Delete a Record", disabled=True, use_container_width=True)
+    elif st.button("Delete a Record", use_container_width=True):
+        switch_page("Delete")
 
-
-def render_footer():
-    st.markdown("""
-    <style>
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: #253C64; /* Background color */
-        color: #FFFFFF; /* Text color */
-        text-align: center;
-        font-size: 12px; /* Font size */
-        padding: 30px;
-        border-radius: 10px; /* Border radius */
-    }
-    </style>
-    <div class="footer">
+# Footer
+st.markdown("""
+<style>
+        footer {
+            background-color: #253C64;
+            text-align: center;
+            font-size: 12px;
+            color: #FFFFFF;
+            margin-top: 100px;
+            padding-top: 20px;
+            padding-bottom: 50px;
+        }
+</style>
+<footer>
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
 </footer>
 """, unsafe_allow_html=True)
@@ -252,9 +166,9 @@ hide_streamlit_bar = """
     }
     /* Optional: Adjust the main content area if necessary */
     .main .block-container {
-        padding-top: 3rem;  
-        padding-left: 5rem; 
-        padding-right: 5rem; 
+        padding-top: 0rem;  
+        padding-left: 0rem; 
+        padding-right: 0rem; 
         padding-bottom: 0rem; 
     }
     </style>

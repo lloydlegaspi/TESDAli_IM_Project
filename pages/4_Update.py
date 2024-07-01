@@ -61,56 +61,63 @@ m = st.markdown("""
         position:relative;
         top:3px;
     }
-    
-    header {
+        header {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: rgba(0, 0, 0, 0.05);
-        padding: 10px;
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.9); 
         color: #05174B;
+        width: 100%; 
+        padding: 10px 0;
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        right: 0; 
+        z-index: 1000; 
+        transition: top 0.3s; 
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
     }
-    .logo-text-container {
-        display: flex;
-        align-items: center;
-        margin-left: 50px;
-    }
-    .logo img {
-        width: 40px;
-        margin-right: 20px;
-    }
-    .text-container {
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-    }
-    .text-container p {
-        font-size: 12px;
-        margin: 0;
-        padding: 0;
-    }
-    .navigation {
-        display: flex;
-        margin-bottom: 20px;
-        margin-right: 60px;
-    }
-    .navigation a {
-        margin-top: 30px;
-        text-decoration: none;
-        color: #05174B;
-        font-size: 12px;
-        border-radius: 15px;
-        padding: 8px 15px;
-        margin-left: 15px;
-    }
-    .navigation a.selected {
-        background-color: #5C6B8B;
-        color: #FFFFFF;
-    }
-    .navigation a:hover {
-        background-color: #1A4793;
-        color: #FFFFFF;
-    }
+        .logo-text-container {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+            margin-left: 75px;
+        }
+        .logo img {
+            width: 40px;
+            margin-right: 20px;
+        }
+        .text-container {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        .text-container p {
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+        .navigation {
+            align-items: right;
+            display: flex;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: 75px;
+            gap: 20px;
+        }
+        .navigation a {
+            margin-top: 25px;
+            text-decoration: none;
+            color: #05174B;
+            font-size: 13px; 
+            border-radius: 15px;
+            padding: 8px 10px; 
+        }
+        .navigation a.selected {
+            background-color: #5C6B8B; 
+            color: #FFFFFF; 
+        }
+        .navigation a:hover {
+            background-color: #1A4793; 
+            color: #FFFFFF; 
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -221,13 +228,13 @@ with col1:
     if st.button("Back to Home", use_container_width=True):
         switch_page("Home")
 with col2:
-    st.button("Add a Record", disabled=True, use_container_width=True)
+    if st.button("Add a Record", use_container_width=True):
+        switch_page("Add")
 with col3:
     if st.button("View Records", use_container_width=True):
         switch_page("View")
 with col4:
-    if st.button("Update a Record", use_container_width=True):
-        switch_page("Update")
+    st.button("Update a Record", disabled=True, use_container_width=True)
 with col5:
     if st.button("Delete a Record", use_container_width=True):
         switch_page("Delete")
@@ -250,6 +257,22 @@ def render_footer():
     </style>
     <div class="footer">
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
-    </div>
-    """, unsafe_allow_html=True)
-render_footer()
+</footer>
+""", unsafe_allow_html=True)
+
+hide_streamlit_bar = """
+    <style>
+    /* Hide the Streamlit top bar using its specific class */
+    .st-emotion-cache-uc1cuc {
+        display: none !important;
+    }
+    /* Optional: Adjust the main content area if necessary */
+    .main .block-container {
+        padding-top: 3rem;  
+        padding-left: 5rem; 
+        padding-right: 5rem; 
+        padding-bottom: 0rem; 
+    }
+    </style>
+"""
+st.markdown(hide_streamlit_bar, unsafe_allow_html=True)

@@ -11,24 +11,31 @@
             font-family: Arial, sans-serif;
         }
         .stApp {
-            background-image: url('https://i.ibb.co/BCt1VdS/Dark-Blue-Modern-Geometric-Simple-Feature-Section-Website-UI-Prototype-1.png');
+            background-image: url('https://i.imgur.com/LmSlYc7.jpg');
             background-position: center center;
             background-repeat: no-repeat;
             background-size: 300% 300%;
         }
         header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 10px;
-            border-radius: 10px;
-            color: #05174B;
-        }
+        display: flex;
+        background: rgba(255, 255, 255, 0.9); 
+        color: #05174B;
+        width: 100%; 
+        padding: 10px 0;
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        right: 0; 
+        z-index: 1000; 
+        transition: top 0.3s; 
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+    }
+
         .logo-text-container {
             display: flex;
             align-items: center;
-            margin-left: 50px;
+            margin-right: auto;
+            margin-left: 75px;
         }
         .logo img {
             width: 40px;
@@ -44,51 +51,57 @@
             padding: 0;
         }
         .navigation {
+            align-items: right;
             display: flex;
             margin-bottom: 20px;
-            margin-right: 60px;
+            margin-left: auto;
+            margin-right: 75px;
             gap: 20px;
         }
         .navigation a {
-            margin-top: 30px;
+            margin-top: 25px;
             text-decoration: none;
-            color: #05174B; /* Default text color */
-            font-size: 12px;
-            border-radius: 15px; /* Rounded corners */
-            padding: 8px 10px; /* Add padding for better appearance */
+            color: #05174B;
+            font-size: 13px; 
+            border-radius: 15px;
+            padding: 8px 10px; 
         }
         .navigation a.selected {
-            background-color: #5C6B8B; /* Background color for selected link */
-            color: #FFFFFF; /* Text color for selected link */
+            background-color: #5C6B8B; 
+            color: #FFFFFF; 
         }
         .navigation a:hover {
-            background-color: #1A4793; /* Background color on hover */
-            color: #FFFFFF; /* Text color on hover */
+            background-color: #1A4793; 
+            color: #FFFFFF; 
         }
         .title {
             margin-top: 50px;
             text-align: center;
-            max-width: 800px; /* Limit maximum width */
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 20px;
+            margin-top: 150px;
             color: #05174B;
         }
         .description-container {
             color: black;
             background-color: white;
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
-            margin: 0 auto; /* Center horizontally */
-            max-width: 800px; /* Limit maximum width */
-            width: 100%; /* Match the width of the title */
+            padding: auto;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin-left: 200px;
+            margin-right: 200px;
             margin-top: 40px;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
         .description p {
             text-indent: 50px;
             text-align: justify;
             line-height: 1.5;
+            margin-left: 20px;
+            margin-right: 20px;
         }
 
         .developer-container {
@@ -98,15 +111,17 @@
         }
 
         .developer {
-            margin-right: 10px;
-            margin-left: 10px;
             text-align: center;
-            width: 150px;
-            padding: 20px;
+            width: 200px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-right: 10px;
+            padding-left: 10px;
             border-radius: 10px;
             background-color: #ffff;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px; /* Add margin bottom to create space between rectangles */
+            margin-right: 10px;
+            margin-left: 10px;
         }
 
         .developer img {
@@ -132,8 +147,8 @@
             color: #05174B;
             text-align: center;
             margin-top: 100px;
+            margin-bottom: 50px;
         }
-
         footer {
         position: fixed;
         left: 0;
@@ -204,39 +219,39 @@
     <h2>Meet the Developers</h2>
     <div class="developer-container">
         <div class="developer">
-            <img src="https://i.ibb.co/XySCfZ3/chynna.jpg" alt="1" border="0"></a>
+            <img src="https://media.licdn.com/dms/image/D4D03AQFlFJ6YQ2evag/profile-displayphoto-shrink_800_800/0/1665669739215?e=1724284800&v=beta&t=w45CKemDEDz0fOy9ZKeFroRaAq7zatKYkyXXKH2byso" alt="1" border="0"></a>
             <div class="developer-name">Chynna Mae Doria</div>
             <div class="social-icons">
-                <a href="https://github.com/chynnadoria"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
-                <a href="https://www.linkedin.com/in/chynna-doria/"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
-                <a href="mailto:chynnadoria18@gmail.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+                <a href="https://github.com/chynnadoria"><img src="https://i.imgur.com/kATxiVA.png" alt="github" border="0"></a>
+                <a href="https://www.linkedin.com/in/chynna-doria/"><img src="https://i.imgur.com/qLksoMA.png" alt="linkedin" border="0"></a>
+                <a href="mailto:chynnadoria18@gmail.com"><img src="https://i.imgur.com/CLPuqip.png" alt="email" border="0"></a>
             </div>
         </div>
         <div class="developer">
-            <img src="https://i.ibb.co/WBwmXpb/2.png" alt="2" border="0"></a>
+            <img src="https://i.imgur.com/iQJbjsT.png" alt="2" border="0"></a>
             <div class="developer-name">John Lloyd Legaspi</div>
             <div class="social-icons">
-                <a href="https://github.com/lloydlegaspi"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
-                <a href="https://www.linkedin.com/in/john-lloyd-legaspi-80a0b1166/"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
-                <a href="mailto:jlloyd.legaspi@gmail.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+                <a href="https://github.com/lloydlegaspi"><img src="https://i.imgur.com/kATxiVA.png" alt="github" border="0"></a>
+                <a href="https://www.linkedin.com/in/john-lloyd-legaspi-80a0b1166/"><img src="https://i.imgur.com/qLksoMA.png" alt="linkedin" border="0"></a>
+                <a href="mailto:jlloyd.legaspi@gmail.com"><img src="https://i.imgur.com/CLPuqip.png" alt="email" border="0"></a>
             </div>
         </div>
         <div class="developer">
-            <img src="https://i.ibb.co/XZBb8cC/paul.jpg" alt="3" border="0"></a>
+            <img src="https://media.licdn.com/dms/image/C5603AQHQZj9jE8HzTw/profile-displayphoto-shrink_800_800/0/1654068082787?e=1724284800&v=beta&t=lw6lEFRS-eiLwTKMGhoqbJNKrERzzbbQ43zenDRRc74" alt="3" border="0"></a>
             <div class="developer-name">Paul Angelo Macaraeg</div>
             <div class="social-icons">
-                <a href="https://github.com/PaullyMac"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
-                <a href="https://www.linkedin.com/in/paul-macaraeg/"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
-                <a href="mailto:paulmacaraeg24@gmail.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+                <a href="https://github.com/PaullyMac"><img src="https://i.imgur.com/kATxiVA.png" alt="github" border="0"></a>
+                <a href="https://www.linkedin.com/in/paul-macaraeg/"><img src="https://i.imgur.com/qLksoMA.png" alt="linkedin" border="0"></a>
+                <a href="mailto:paulmacaraeg24@gmail.com"><img src="https://i.imgur.com/CLPuqip.png" alt="email" border="0"></a>
             </div>
         </div>
         <div class="developer">
-            <img src="https://i.ibb.co/6nfxfM9/4.png" alt="4" border="0"></a>
+            <img src="https://i.imgur.com/KJxZj4z.png" alt="4" border="0"></a>
             <div class="developer-name">Kyla Mae Valoria</div>
             <div class="social-icons">
-                <a href="https://github.com/kylavaloria"><img src="https://i.ibb.co/VN3T25C/github.png" alt="github" border="0"></a>
-                <a href="https://www.linkedin.com/in/kylamaevaloria/"><img src="https://i.ibb.co/Wv5tK5S/linkedin.png" alt="linkedin" border="0"></a>
-                <a href="mailto:kylamaevaloria8@gmail.com"><img src="https://i.ibb.co/85kj9dx/email.png" alt="email" border="0"></a>
+                <a href="https://github.com/kylavaloria"><img src="https://i.imgur.com/kATxiVA.png" alt="github" border="0"></a>
+                <a href="https://www.linkedin.com/in/kylamaevaloria/"><img src="https://i.imgur.com/qLksoMA.png" alt="linkedin" border="0"></a>
+                <a href="mailto:kylamaevaloria8@gmail.com"><img src="https://i.imgur.com/CLPuqip.png" alt="email" border="0"></a>
             </div>
         </div>
     </div>

@@ -80,55 +80,64 @@ m = st.markdown("""
         top:3px;
     }
     
-    header {
+            header {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: rgba(0, 0, 0, 0.05);
-        padding: 10px;
-        border-radius: 10px;
+        background: #FFFFFF; 
         color: #05174B;
+        width: 100%; 
+        padding: 10px 0;
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        right: 0; 
+        z-index: 1000; 
+        transition: top 0.3s; 
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
     }
-    .logo-text-container {
-        display: flex;
-        align-items: center;
-        margin-left: 50px;
-    }
-    .logo img {
-        width: 40px;
-        margin-right: 20px;
-    }
-    .text-container {
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-    }
-    .text-container p {
-        font-size: 12px;
-        margin: 0;
-        padding: 0;
-    }
-    .navigation {
-        display: flex;
-        margin-bottom: 20px;
-        margin-right: 60px;
-    }
-    .navigation a {
-        margin-top: 30px;
-        text-decoration: none;
-        color: #05174B;
-        font-size: 12px;
-        border-radius: 15px;
-        padding: 8px 15px;
-        margin-left: 15px;
-    }
-    .navigation a.selected {
-        background-color: #5C6B8B;
-        color: #FFFFFF;
-    }
-    .navigation a:hover {
-        background-color: #1A4793;
-        color: #FFFFFF;
-    }
+
+        .logo-text-container {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+            margin-left: 75px;
+        }
+        .logo img {
+            width: 40px;
+            margin-right: 20px;
+        }
+        .text-container {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        .text-container p {
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+        .navigation {
+            align-items: right;
+            display: flex;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: 75px;
+            gap: 20px;
+        }
+        .navigation a {
+            margin-top: 25px;
+            text-decoration: none;
+            color: #05174B;
+            font-size: 13px; 
+            border-radius: 15px;
+            padding: 8px 10px; 
+        }
+        .navigation a.selected {
+            background-color: #5C6B8B; 
+            color: #FFFFFF; 
+        }
+        .navigation a:hover {
+            background-color: #1A4793; 
+            color: #FFFFFF; 
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -317,7 +326,7 @@ with col5:
         switch_page("Delete")
 
 @st.experimental_dialog("Submitted Information", width="large")
-def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
+def output(Learners_ID, Application_Date, Training_Center, Training_Address, Assessment_Title,
            Assessment_Status, Client_Type, Name, Address, Mothers_Name, Fathers_Name, Sex, Civil_Status,
            Tel_No, Mobile_No, Email, Fax_No, Education, Emp_Status, Birth_Date, Birth_Place, Age, edited_df):
    
@@ -365,7 +374,6 @@ def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Addr
     
     edited_df['Appt Status'] = edited_df['Appt Status'].map(employment_status_mapping)
     
-    st.write(f"Reference Number: {Ref_No}")
     st.write(f"Unique Learners Identifier: {Learners_ID}")
     st.write(f"Date of Application: {Application_Date}")
     st.write(f"Name of School/Training Center/Company: {Training_Center}")
@@ -403,16 +411,17 @@ def output(Ref_No, Learners_ID, Application_Date, Training_Center, Training_Addr
                                 Learners_ID)
         
         # Insert data into Work_Experience table
-        for index, row in edited_df.iterrows():
-            comp_name = row['Comp_Name']
-            position = row['Position']
-            start_date = row['Start_Date']
-            end_date = row['End_Date']
-            salary = row['Salary']
-            appt_status = row['Appt Status']
-            work_years = row['Work_Years']
-            insert_into_work_experience(comp_name, position, start_date, end_date, salary, appt_status, work_years, Learners_ID)
-        
+        if not edited_df.empty:
+            for index, row in edited_df.iterrows():
+                comp_name = row['Comp_Name']
+                position = row['Position']
+                start_date = row['Start_Date']
+                end_date = row['End_Date']
+                salary = row['Salary']
+                appt_status = row['Appt Status']
+                work_years = row['Work_Years']
+                insert_into_work_experience(comp_name, position, start_date, end_date, salary, appt_status, work_years, Learners_ID)
+            
         st.success("Form submitted successfully!")
         
 if submit_button:
@@ -438,9 +447,24 @@ def render_footer():
     </style>
     <div class="footer">
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
-    </div>
-    """, unsafe_allow_html=True)
-render_footer()
-
+</footer>
+""", unsafe_allow_html=True)
+     
+hide_streamlit_bar = """
+    <style>
+    /* Hide the Streamlit top bar using its specific class */
+    .st-emotion-cache-uc1cuc {
+        display: none !important;
+    }
+    /* Optional: Adjust the main content area if necessary */
+    .main .block-container {
+        padding-top: 2rem;  
+        padding-left: 5rem; 
+        padding-right: 5rem; 
+        padding-bottom: 0rem; 
+    }
+    </style>
+"""
+st.markdown(hide_streamlit_bar, unsafe_allow_html=True)
     
 
