@@ -8,6 +8,7 @@ def load_about():
 def main():
     st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
     about_html = load_about()
+    st.balloons()
     st.write(about_html, unsafe_allow_html=True)  
 
 if __name__ == "__main__":
