@@ -615,18 +615,19 @@ def fetch_avg_salary_emp_status():
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-            SELECT
+            SELECT 
                 Emp_Status,
-                AVG(Salary) AS 'Average Salary'
-            FROM
-                learners l, work_exp w
-            WHERE
-                l.Learners_ID = w.Learners_ID
-            GROUP BY
+                COUNT(*) AS 'Learner Count'
+            FROM 
+                learners
+            WHERE 
+                Emp_Status = 'OFW' OR Emp_Status = 'C'
+            GROUP BY 
                 Emp_Status
-            HAVING AVG(Salary) > 50000
-            ORDER BY
-                AVG(Salary) ASC;
+            HAVING 
+                COUNT(*) > 1
+            ORDER BY 
+                'Learner Count' ASC;
             """)
             result = cursor.fetchall()
             columns = cursor.column_names

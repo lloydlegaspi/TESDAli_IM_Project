@@ -394,9 +394,9 @@ with tab3:
         application_programming_networking_df = pd.DataFrame(application_programming_networking_data, columns=application_programming_networking_cols)
         st.dataframe(application_programming_networking_df, hide_index=True, use_container_width=True)
     
-    with st.expander("3. Employment Status with Average Salary Greater than 50000"):
+    with st.expander("3. Analysis of Learner Distribution by Employment Status for OFWs and College Graduates"):
         st.divider()
-        st.write("TESDA wants to analyze the average salary of learners based on their employment status. The assessors need a report that shows the average salary of learners, grouped by their employment status having only an average salary greater than 50000, and sorts the results by average. Display each learner's employment status and average salary in ascending order.")
+        st.write("The Technical Education and Skills Development Authority (TESDA) wants to analyze the distribution of learners based on their employment status. They are particularly interested in learners who are either Overseas Filipino Workers (OFW) or College Graduates (C). TESDA needs a report that shows the count of these learners for each employment status, where the count is greater than 1. Display each employment status and the corresponding count of learners sorted in ascending order.")
         avesalaryEmpdata, avesalaryEmpcolumns = fetch_avg_salary_emp_status()
         avesalaryEmpdf = pd.DataFrame(avesalaryEmpdata, columns=avesalaryEmpcolumns) 
         st.dataframe(avesalaryEmpdf, hide_index=True, use_container_width=True)
