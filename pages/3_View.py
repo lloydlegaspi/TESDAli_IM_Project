@@ -355,7 +355,7 @@ with tab3:
     
     
     # Basic Reports
-    st.write("**Basic Reports**")
+    st.write("**Simple Query-Level Reports**")
     with st.expander("1. Identification of Applicants with Managerial Positions for Mentorship Opportunity"):
         st.divider()
         st.write("The assessors seek to identify applicants with managerial experience for mentoring roles in a new upcoming course on resource management. The report should display each learner’s ID, position, years spent working, and salary. Only include those who have held a managerial position for at least 3 years. Sort the data by salary, from highest to lowest.")
@@ -378,7 +378,7 @@ with tab3:
         st.dataframe(manilaHighSchoolGraduatesdf, hide_index=True, use_container_width=True)
     
     # Medium Reports
-    st.write("**Medium Reports**")
+    st.write("**Moderate Query-Level Reports**")
     
     with st.expander("1. Overview of Applicants’ Demographics Per Client Type"):
         st.divider()
@@ -389,17 +389,17 @@ with tab3:
         
     with st.expander("2. Analysis of Training Centers with High Application Numbers for Programming and Networking Assessments"):
         st.divider()
-        st.write("The Technical Education and Skills Development Authority (TESDA) wants to analyze training centers that have received significant numbers of applications for programming and networking assessments between April and June 2024. They require a report listing the training centers, assessment titles, and total application counts, focusing on those centers with at least two applications. Results should be sorted in descending order based on the total number of applications.")
+        st.write("TESDA wants to analyze training centers that have received significant numbers of applications for programming and networking assessments between April and June 2024. They require a report listing the training centers, assessment titles, and total application counts, focusing on those centers with at least two applications. Results should be sorted in descending order based on the total number of applications.")
         application_programming_networking_data, application_programming_networking_cols = fetch_applications_programming_networking()
         application_programming_networking_df = pd.DataFrame(application_programming_networking_data, columns=application_programming_networking_cols)
         st.dataframe(application_programming_networking_df, hide_index=True, use_container_width=True)
     
-    with st.expander("3. Employment Status with Average Salary Greater than 50000"):
+    with st.expander("3. Analysis of Learner Distribution by Employment Status for Permanent and Self-Employed Applicants"):
         st.divider()
-        st.write("TESDA wants to analyze the average salary of learners based on their employment status. The assessors need a report that shows the average salary of learners, grouped by their employment status having only an average salary greater than 50000, and sorts the results by average. Display each learner's employment status and average salary in ascending order.")
-        avesalaryEmpdata, avesalaryEmpcolumns = fetch_avg_salary_emp_status()
-        avesalaryEmpdf = pd.DataFrame(avesalaryEmpdata, columns=avesalaryEmpcolumns) 
-        st.dataframe(avesalaryEmpdf, hide_index=True, use_container_width=True)
+        st.write("TESDA wants to analyze the distribution of learners based on their employment status. They are particularly interested in learners who's employment status either permanent or self-employed. TESDA needs a report that shows the count of these learners for each employment status, where the count is greater than 1. Display each employment status and the corresponding count of learners sorted in ascending order.")
+        lcpdata, lcpcolumns = fetch_lc_by_p_se_empstatus()
+        lcpdf = pd.DataFrame(lcpdata, columns=lcpcolumns) 
+        st.dataframe(lcpdf, hide_index=True, use_container_width=True)
     
     with st.expander("4. Analysis of TESDA Training Centers that Offers More Than One Assessment Title Since the Year 2020"):
         st.divider()
@@ -409,7 +409,7 @@ with tab3:
         st.dataframe(trainingCentersdf, hide_index=True, use_container_width=True)
 
     # Advanced Reports
-    st.write("**Advanced Reports**")
+    st.write("**Difficult Query-Level Reports**")
     
     with st.expander("1. Assessing the New Qualification System for Learners Selection"):
         st.divider()

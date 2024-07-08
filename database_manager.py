@@ -609,24 +609,25 @@ def fetch_applications_programming_networking():
         if conn:
             conn.close()
 
-def fetch_avg_salary_emp_status():
+def fetch_lc_by_p_se_empstatus():
     try:
         conn = connect_to_database()
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-            SELECT
+            SELECT 
                 Emp_Status,
-                AVG(Salary) AS 'Average Salary'
-            FROM
-                learners l, work_exp w
-            WHERE
-                l.Learners_ID = w.Learners_ID
-            GROUP BY
+                COUNT(*) AS 'Learner Count'
+            FROM 
+                learners
+            WHERE 
+                Emp_Status = 'P' OR Emp_Status = 'SE'
+            GROUP BY 
                 Emp_Status
-            HAVING AVG(Salary) > 50000
-            ORDER BY
-                AVG(Salary) ASC;
+            HAVING 
+                COUNT(*) > 1
+            ORDER BY 
+                'Learner Count' ASC;
             """)
             result = cursor.fetchall()
             columns = cursor.column_names
@@ -764,41 +765,6 @@ def fetch_learners_with_significant_work_exp():
             return result, columns
     except connector.Error as e:
         print(f"Error fetching learners with significant work experience: {e}")
-        return []
-    finally:
-        if conn:
-            conn.close()
-   
-    
-def fetch_learners_with_over_5_years_work_exp():
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-            SELECT
-                l.Name AS 'Applicant Name',
-                l.Address AS 'Applicant Address',
-                l.Email AS 'Applicant Email',
-                SUM(w.Work_Years) AS 'Total Work Years'
-            FROM
-                learners l, work_exp w
-            WHERE
-                l.Learners_ID = w.Learners_ID
-                AND Sex = 'F'
-            GROUP BY
-                l.Name, l.Address, l.Email
-            HAVING SUM(w.Work_Years) > 5
-            ORDER BY
-                SUM(w.Work_Years) DESC;
-
-            """)
-            result = cursor.fetchall()
-            columns = cursor.column_names
-            cursor.close()
-            return result, columns
-    except connector.Error as e:
-        print(f"Error fetching learners with over 5 years of work experience: {e}")
         return []
     finally:
         if conn:
