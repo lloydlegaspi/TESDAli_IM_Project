@@ -91,7 +91,7 @@ def create_tables():
         if conn:
             conn.close()
 
-
+# INSERT RECORDS
 # Function to insert data into the Learners table
 def insert_into_learners(learners_id, client_type, name, address, mothers_name, fathers_name, sex, civil_status,
                          tel_no, mobile_no, email, fax_no, education, emp_status, birth_date, birth_place, age):
@@ -159,8 +159,66 @@ def insert_into_work_experience(comp_name, position, start_date, end_date, salar
     finally:
         if conn:
             conn.close()
+
+# UPDATE RECORDS
+def update_record(table, record_id, update_data):
+    primary_keys = {
+        "Learners": "Learners_ID",
+        "Application": "Ref_No",
+        "Work_Exp": "Work_Exp_Code"
+    }
+    
+    if table not in primary_keys:
+        print(f"Unknown table: {table}")
+        return None, None
+    
+    primary_key = primary_keys[table]
+    
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
+            values = list(update_data.values())
+            update_query = f"UPDATE {table} SET {set_clause} WHERE {primary_key} = %s"
+            values.append(record_id)
+            cursor.execute(update_query, values)
+            conn.commit()
+            print(f"Record in {table} table updated successfully")
+    except connector.Error as e:
+        print(f"Error updating record in {table} table: {e}")
+    finally:
+        if conn:
+            conn.close()
+
+# DELETE RECORDS  
+# Function to delete a record from the specified table
+def delete_record(table, record_id):
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            # Determine the primary key column based on the table name
+            primary_key = {
+                "Learners": "Learners_ID",
+                "Application": "Ref_No",
+                "Work_Exp": "Work_Exp_Code"
+            }.get(table)
+            if not primary_key:
+                raise ValueError("Invalid table name")
+            # Delete the record
+            cursor.execute(f"DELETE FROM {table} WHERE {primary_key} = %s", (record_id,))
+            conn.commit()
+            if cursor.rowcount == 0:
+                return False, f"No record found with ID {record_id} in {table} table"
+            return True, f"Record with ID {record_id} deleted from {table} table successfully"
+    except connector.Error as e:
+        return False, f"Error deleting record from {table} table: {e}"
+    finally:
+        if conn:
+            conn.close()
             
-# Functions to fetch data from the database
+# FETCH/READ RECORDS
 def fetch_learners():
     try:
         conn = connect_to_database()
@@ -242,6 +300,7 @@ def fetch_record(table, record_id):
         if conn:
             conn.close()
 
+#View Page Functions
 def fetch_metrics():
     try:
         conn = connect_to_database()
@@ -537,7 +596,6 @@ def fetch_manila_high_school_graduates():
         if conn:
             conn.close()
 
-
 # Moderate
 def fetch_applicants_demographics_per_client_type():
     try:
@@ -766,64 +824,6 @@ def fetch_learners_with_significant_work_exp():
     except connector.Error as e:
         print(f"Error fetching learners with significant work experience: {e}")
         return []
-    finally:
-        if conn:
-            conn.close()
-
-# UPDATE RECORDS
-def update_record(table, record_id, update_data):
-    primary_keys = {
-        "Learners": "Learners_ID",
-        "Application": "Ref_No",
-        "Work_Exp": "Work_Exp_Code"
-    }
-    
-    if table not in primary_keys:
-        print(f"Unknown table: {table}")
-        return None, None
-    
-    primary_key = primary_keys[table]
-    
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
-            values = list(update_data.values())
-            update_query = f"UPDATE {table} SET {set_clause} WHERE {primary_key} = %s"
-            values.append(record_id)
-            cursor.execute(update_query, values)
-            conn.commit()
-            print(f"Record in {table} table updated successfully")
-    except connector.Error as e:
-        print(f"Error updating record in {table} table: {e}")
-    finally:
-        if conn:
-            conn.close()
-
-# DELETE RECORDS  
-# Function to delete a record from the specified table
-def delete_record(table, record_id):
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            # Determine the primary key column based on the table name
-            primary_key = {
-                "Learners": "Learners_ID",
-                "Application": "Ref_No",
-                "Work_Exp": "Work_Exp_Code"
-            }.get(table)
-            if not primary_key:
-                raise ValueError("Invalid table name")
-            # Delete the record
-            cursor.execute(f"DELETE FROM {table} WHERE {primary_key} = %s", (record_id,))
-            conn.commit()
-            if cursor.rowcount == 0:
-                return False, f"No record found with ID {record_id} in {table} table"
-            return True, f"Record with ID {record_id} deleted from {table} table successfully"
-    except connector.Error as e:
-        return False, f"Error deleting record from {table} table: {e}"
     finally:
         if conn:
             conn.close()
