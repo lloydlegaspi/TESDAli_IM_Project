@@ -243,11 +243,11 @@ with st.form("application_form", clear_on_submit=True):
             )
         with col3:
             st.write("2.7. Contact Information")
-            Tel_No = st.text_input("Telephone Number")
+            Tel_No = st.text_input("Telephone Number", placeholder="02-XXXX-YYYY")
         with col4:
             st.write(" ")
             st.write(" ")
-            Mobile_No = st.text_input("Mobile Number", placeholder="09xx-xxx-xxxx")
+            Mobile_No = st.text_input("Mobile Number", placeholder="09XX-XXX-YYYY")
         with col5:
             st.write(" ")
             st.write(" ")
@@ -255,7 +255,7 @@ with st.form("application_form", clear_on_submit=True):
         with col6:
             st.write(" ")
             st.write(" ")
-            Fax_No = st.text_input("Fax Number")
+            Fax_No = st.text_input("Fax Number", placeholder="XXXX-YYYY")
                 
         col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1.5, .5])
         with col1:
@@ -271,7 +271,7 @@ with st.form("application_form", clear_on_submit=True):
         with col4:
             Birth_Place = st.text_input("2.11. Birth place", placeholder="City, Province")
         with col5:
-            Age = st.number_input("2.12. Age", min_value=0, max_value=99, step=1)
+            Age = st.number_input("2.12. Age", min_value=1, max_value=99, step=1)
    
     st.write(" ")
     with st.container(border=True):
@@ -299,12 +299,6 @@ with st.form("application_form", clear_on_submit=True):
     with col2:
         submit_button = st.form_submit_button("**📥 SUBMIT**", help="Click to submit the form", use_container_width=True)
 
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
 st.write(" ")
 st.write(" ")
 
@@ -442,7 +436,8 @@ def render_footer():
         text-align: center;
         font-size: 12px; /* Font size */
         padding: 30px;
-        border-radius: 10px; /* Border radius */
+        border-radius: 10px;
+        margin-top: 30px;
     }
     </style>
     <div class="footer">
