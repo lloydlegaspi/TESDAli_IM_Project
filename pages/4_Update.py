@@ -210,17 +210,6 @@ with col2:
 st.write(" ")
 st.write(" ")
 st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-st.write(" ")
-
 
 # Navigation buttons
 col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1,])
@@ -229,7 +218,7 @@ with col1:
         switch_page("Home")
 with col2:
     if st.button("Add a Record", use_container_width=True):
-        switch_page("Add")
+        switch_page("Insert")
 with col3:
     if st.button("View Records", use_container_width=True):
         switch_page("View")
@@ -250,7 +239,7 @@ st.markdown("""
         color: #FFFFFF;
         padding: 30px;
         border-radius: 10px;
-        margin-top: 80px;
+        margin-top: 30px;
     }
 </style>
 <footer>

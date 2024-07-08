@@ -148,7 +148,6 @@ st.markdown("""
 
 
 st.write(" ")
-st.write(" ")
 
 # Fetch data from the database
 learners_data, learners_columns = fetch_learners()
@@ -163,6 +162,7 @@ work_exp_df = pd.DataFrame(work_exp_data, columns=work_exp_columns)
 # Metrics
 courses_offered, total_learners, total_applications, average_age = fetch_metrics()
 
+st.write(" ")
 # Example usage of displaying metrics (assuming you use streamlit)
 col1, col2, col3, col4, col5 = st.columns([3, 1, 1, 1, 1])
 col1.markdown("<h1 style='color: blue; text-align: center;'>TESDA Dashboard</h1>", unsafe_allow_html=True)
@@ -172,10 +172,10 @@ col4.metric("Total Applications", total_applications, "Applications")
 col5.metric("Learners' Average Age", average_age)
 
 st.write(" ")
-st.write(" ")
 
 tab1, tab2, tab3 = st.tabs(["Application Summary", "Learners' Profile", "Generated Reports"])
 
+# Application Summary
 with tab1:
     col1, col2 = st.columns(2)
     with col1:
@@ -187,7 +187,7 @@ with tab1:
 
                 plt.figure(figsize=(10, 6))
                 bars = plt.barh(df['Assessment Title'], df['Count'], color='skyblue')
-                plt.xlabel('Applications')
+                plt.xlabel('No. of Applications')
                 plt.xticks(range(0, max(df['Count']) + 1, 1))
                 plt.yticks([])
                 plt.tight_layout()
@@ -206,9 +206,9 @@ with tab1:
                 df = pd.DataFrame(training_centers_df, columns=['Training Center', 'Count'])
                 df = df.sort_values(by='Count')
 
-                plt.figure(figsize=(10, 6))
+                plt.figure(figsize=(10, 6.6))
                 bars = plt.barh(df['Training Center'], df['Count'], color='skyblue')
-                plt.xlabel('Applications')
+                plt.xlabel('No. of Applications')
                 plt.xticks(range(0, max(df['Count']) + 1, 1))
                 plt.yticks([])
                 plt.tight_layout()
@@ -231,7 +231,7 @@ with tab1:
 
             plt.figure(figsize=(10, 6))
             bars = plt.bar(df['Assessment Status'], df['Count'], color='skyblue')
-            plt.ylabel('Applications')
+            plt.ylabel('No. of Applications')
             plt.yticks(range(0, max(df['Count']) + 1, 1))
             plt.tight_layout()
             st.pyplot(plt)
@@ -262,6 +262,8 @@ with tab1:
         st.write(" ")
         st.write(" ")
 
+
+# Learners' Profile
 with tab2:
     col1, col2 = st.columns(2)
 
@@ -278,8 +280,8 @@ with tab2:
                                          marker=dict(colors=blues))])
             fig.update_traces(textposition='inside', textinfo='label+percent', showlegend=False)
             fig.update_layout(
-                width=500,
-                height=500
+                width=620,
+                height=620
             )
             st.plotly_chart(fig)
 
@@ -303,10 +305,17 @@ with tab2:
 
         if sex_data:
             sex_df = pd.DataFrame(sex_data, columns=['Sex', 'Count'])
-            fig, ax = plt.subplots()
-            ax.pie(sex_df['Count'], labels=sex_df['Sex'], autopct='%1.1f%%', startangle=90, colors=["#1f77b4", "#7ed1e6"])
-            ax.axis('equal') 
-            st.pyplot(fig)  
+            blues = ['skyblue', '##31b1e0'] 
+            
+            # Plotting Sex Distribution with Plotly
+            fig = go.Figure(data=[go.Pie(labels=sex_df['Sex'], values=sex_df['Count'], hole=0.2, 
+                                         marker=dict(colors=blues))])
+            fig.update_traces(textposition='inside', textinfo='label+percent', showlegend=False)
+            fig.update_layout(
+                width=620,
+                height=620
+            )
+            st.plotly_chart(fig)
             
     with col2:
         st.subheader("Average Salary by Employment Status")
@@ -332,17 +341,17 @@ with tab3:
     with st.expander("Learners records"):
         st.divider()
         st.write("Display All Learners Records.")
-        st.dataframe(learners_df, height=300, hide_index=True)
+        st.dataframe(learners_df, hide_index=True)
 
     with st.expander("Applications Records"):
         st.divider()
         st.write("Display all applications records.")
-        st.dataframe(application_df, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(application_df, hide_index=True, use_container_width=True)
         
     with st.expander("Work Experiences Records"):
         st.divider()
         st.write("Display all work experiences records.")
-        st.dataframe(work_exp_df, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(work_exp_df, hide_index=True, use_container_width=True)
     
     
     # Basic Reports
@@ -352,59 +361,52 @@ with tab3:
         st.write("The assessors seek to identify applicants with managerial experience for mentoring roles in a new upcoming course on resource management. The report should display each learner’s ID, position, years spent working, and salary. Only include those who have held a managerial position for at least 3 years. Sort the data by salary, from highest to lowest.")
         managerialApplicantsdata, managerialApplicantscolumns = fetch_applicants_with_managerial_positions()
         managerialApplicantsdf = pd.DataFrame(managerialApplicantsdata, columns=managerialApplicantscolumns)
-        st.dataframe(managerialApplicantsdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(managerialApplicantsdf, hide_index=True, use_container_width=True)
         
     with st.expander("2. Identification of Industry Workers in CALABARZON Region"):
         st.divider()
         st.write("The Technical Education and Skills Development Authority (TESDA) wants to identify industry workers (Client_Type = 'IW') located in the CALABARZON region (Cavite, Laguna, Batangas, Rizal, Quezon). They require a report listing the names, ages, addresses, mobile numbers, and email addresses of these industry workers, sorted alphabetically by name.")
         industryWorkersdata, industryWorkerscolumns = fetch_industry_workers_in_CALABARZON()
         industryWorkersdf = pd.DataFrame(industryWorkersdata, columns=industryWorkerscolumns)
-        st.dataframe(industryWorkersdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(industryWorkersdf, hide_index=True, use_container_width=True)
     
-    with st.expander("3. Assessment Titles Starting with the Letter 'J'"):
-        st.divider()
-        st.write("TESDA wants to know the total number of applications for each assessment title. They require a report that groups the applications by their respective assessment titles but only of those starting with the letter ‘J’ and provides the number of applications for each. Sort the number of applications in descending order.")
-        assessmentTitlesdata, assessmentTitlescolumns = fetch_assessment_titles_starting_with_J()
-        assessmentTitlesdf = pd.DataFrame(assessmentTitlesdata, columns=assessmentTitlescolumns)
-        st.dataframe(assessmentTitlesdf, height=300, hide_index=True, use_container_width=True)
-    
-    with st.expander("4. Identification of TESDA applicants Who Live in Manila and are High School Graduates. "):
+    with st.expander("3. Identification of TESDA applicants Who Live in Manila and are High School Graduates. "):
         st.divider()
         st.write("TESDA aims to determine the applicants who live in Manila and are high school graduates as their highest educational attainment. Sort them by age in descending order. ")
         manilaHighSchoolGraduatesdata, manilaHighSchoolGraduatescolumns = fetch_manila_high_school_graduates()
         manilaHighSchoolGraduatesdf = pd.DataFrame(manilaHighSchoolGraduatesdata, columns=manilaHighSchoolGraduatescolumns)
-        st.dataframe(manilaHighSchoolGraduatesdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(manilaHighSchoolGraduatesdf, hide_index=True, use_container_width=True)
     
     # Medium Reports
     st.write("**Medium Reports**")
     
     with st.expander("1. Overview of Applicants’ Demographics Per Client Type"):
         st.divider()
-        st.write("The assessors need an overview of the applicants' demographics. The report should display the total number of learners and their average age, categorized by client type and sex. Only include learners who are of legal age and the result should be at least one or more learners. Sort the results alphabetically by client type and then by average age in descending order.")
+        st.write("The assessors need an overview of the applicants' demographics. The report should display the total number of learners and their average age, categorized by client type and sex. Only include learners who are of legal age, civil status is single, and the result should be at least one or more learners. Sort the results alphabetically by client type and then by average age in descending order.")
         applicantsDemographicsdata, applicantsDemographicscolumns = fetch_applicants_demographics_per_client_type()
         applicantsDemographicsdf = pd.DataFrame(applicantsDemographicsdata, columns=applicantsDemographicscolumns)
-        st.dataframe(applicantsDemographicsdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(applicantsDemographicsdf, hide_index=True, use_container_width=True)
         
     with st.expander("2. Analysis of Training Centers with High Application Numbers for Programming and Networking Assessments"):
         st.divider()
         st.write("The Technical Education and Skills Development Authority (TESDA) wants to analyze training centers that have received significant numbers of applications for programming and networking assessments between April and June 2024. They require a report listing the training centers, assessment titles, and total application counts, focusing on those centers with at least two applications. Results should be sorted in descending order based on the total number of applications.")
         application_programming_networking_data, application_programming_networking_cols = fetch_applications_programming_networking()
         application_programming_networking_df = pd.DataFrame(application_programming_networking_data, columns=application_programming_networking_cols)
-        st.dataframe(application_programming_networking_df, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(application_programming_networking_df, hide_index=True, use_container_width=True)
     
     with st.expander("3. Employment Status with Average Salary Greater than 50000"):
         st.divider()
         st.write("TESDA wants to analyze the average salary of learners based on their employment status. The assessors need a report that shows the average salary of learners, grouped by their employment status having only an average salary greater than 50000, and sorts the results by average. Display each learner's employment status and average salary in ascending order.")
         avesalaryEmpdata, avesalaryEmpcolumns = fetch_avg_salary_emp_status()
         avesalaryEmpdf = pd.DataFrame(avesalaryEmpdata, columns=avesalaryEmpcolumns) 
-        st.dataframe(avesalaryEmpdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(avesalaryEmpdf, hide_index=True, use_container_width=True)
     
     with st.expander("4. Analysis of TESDA Training Centers that Offers More Than One Assessment Title Since the Year 2020"):
         st.divider()
-        st.write("TESDA aims to determine which training center offers more than 1 assessment title starting from the year 2020. ")
+        st.write("TESDA aims to determine which training center offers more than 1 assessment title starting from the year 2020, and located in Manila or Makati. The report should display the training center's name, address, and the number of unique assessment titles offered. Sort the results by the training center's name.")
         trainingCentersdata, trainingCenterscolumns = fetch_training_centers_with_multiple_assessment_titles()
         trainingCentersdf = pd.DataFrame(trainingCentersdata, columns=trainingCenterscolumns)
-        st.dataframe(trainingCentersdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(trainingCentersdf, hide_index=True, use_container_width=True)
 
     # Advanced Reports
     st.write("**Advanced Reports**")
@@ -414,36 +416,21 @@ with tab3:
         st.write("TESDA is planning to introduce a new qualification system to identify and support learners who have limited work opportunities. Make a report that would display the learner’s ID, name, age, sex, education, applied assessment, and training center. Display also the learner's salary and total work years. The salary must be lower than 60,000 and the total work years must be 3 years and below. The learner must not be currently hired in a job. Sort by average salary and total work years, both in descending order.")
         limitedWorkOppdata, limitedWorkOppcolumns = fetch_learners_with_limited_work_opp()
         limitedWorkOppdf = pd.DataFrame(limitedWorkOppdata, columns=limitedWorkOppcolumns)
-        st.dataframe(limitedWorkOppdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(limitedWorkOppdf, hide_index=True, use_container_width=True)
         
     with st.expander("2. Analysis of Assessments for Overseas Filipino Workers (OFWs) by Training Center"):
         st.divider()
-        st.write("Display a report that shows the number of assessments taken by OFWs per training center and the number of unique assessment titles for OFWs per training center. The report should include only those training centers that have had more than three OFW assessments.")
+        st.write("Display a report that shows the number of assessments taken by OFWs per training center and the number of unique assessment titles for OFWs per training center. The report should include only those training centers that have had more than three OFW assessments. Sort the results by the number of assessments and unique assessment title in descending order.")
         OFWAssessmentdata, OFWAssessmentcolumns = fetch_assessment_activities_of_OFWs()
         OFWAssessmentdf = pd.DataFrame(OFWAssessmentdata, columns=OFWAssessmentcolumns)
-        st.dataframe(OFWAssessmentdf, height=300, hide_index=True, use_container_width=True)
+        st.dataframe(OFWAssessmentdf, hide_index=True, use_container_width=True)
         
     with st.expander("3. Analysis of Learners with Significant Work Experience and High Salaries in Makati-Based Training Centers Post-2018"):
         st.divider()
-        st.write("Display learner’s ID, application date, name, email and the count of work experiences of applicants that have applied after 2018 and have multiple work experiences with salaries exceeding 50,000 pesos.")
+        st.write("Display learner’s ID, application date, name, email and the count of work experiences of applicants that have applied after 2018 and have multiple work experiences with salaries exceeding 50,000 pesos. Sort by the count of work experiences in descending order.")
         learnersSignificantWorkExpdata, learnersSignificantWorkExpcolumns = fetch_learners_with_significant_work_exp()
         learnersSignificantWorkExpdf = pd.DataFrame(learnersSignificantWorkExpdata, columns=learnersSignificantWorkExpcolumns)
-        st.dataframe(learnersSignificantWorkExpdf, height=300, hide_index=True, use_container_width=True)
-    
-    with st.expander("4. Application Records Related with any Japanese Courses"):
-        st.divider()
-        st.write("Display applications of learners who have applied for any Japanese courses. The report should include the application's reference number, the learner's name, education level, application date, training center, and assessment title.")
-        japaneseCoursedata, japaneseCoursecolumns = fetch_applications_with_japanese_courses()
-        japaneseCoursedf = pd.DataFrame(japaneseCoursedata, columns=japaneseCoursecolumns)
-        st.dataframe(japaneseCoursedf, height=300, hide_index=True, use_container_width=True)
-    
-    with st.expander("5. TESDA Report on Applicants with Over 5 Years of Work Experience"):
-        st.divider()
-        st.write("Identify applicants who have accumulated more than 5 years of work experience. They need a report that includes the name of the applicant, the address of the applicant, the email of the applicant, and the sum of their work years. Display only the applicants whose sum of work years is greater than 5 years. Sort by total work years in descending order.")
-        learnersOver5Yearsdata, learnersOver5Yearscolumns = fetch_learners_with_over_5_years_work_exp()
-        learnersOver5Yearsdf = pd.DataFrame(learnersOver5Yearsdata, columns=learnersOver5Yearscolumns)
-        st.dataframe(learnersOver5Yearsdf, height=300, hide_index=True, use_container_width=True)
-    
+        st.dataframe(learnersSignificantWorkExpdf, hide_index=True, use_container_width=True)
    
 st.write(" ")
 # Navigation buttons
@@ -474,7 +461,7 @@ st.markdown("""
         color: #FFFFFF;
         padding: 30px;
         border-radius: 10px;
-        margin-top: 80px;
+        margin-top: 30px;
     }
 </style>
 <footer>

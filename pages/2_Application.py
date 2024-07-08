@@ -143,15 +143,16 @@ with col2:
 # Footer
 st.markdown("""
 <style>
-        footer {
-            background-color: #253C64;
-            text-align: center;
-            font-size: 12px;
-            color: #FFFFFF;
-            margin-top: 100px;
-            padding-top: 20px;
-            padding-bottom: 50px;
-        }
+    footer {
+        background-color: #253C64;
+        text-align: center;
+        margin: 0px 0;
+        font-size: 12px;
+        color: #FFFFFF;
+        padding: 30px;
+        border-radius: 10px;
+        margin-top: 80px;
+    }
 </style>
 <footer>
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
