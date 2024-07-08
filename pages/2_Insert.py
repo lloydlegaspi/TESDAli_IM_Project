@@ -247,7 +247,7 @@ with st.form("application_form", clear_on_submit=True):
         with col4:
             st.write(" ")
             st.write(" ")
-            Mobile_No = st.text_input("Mobile Number", placeholder="09xxxxxxxxx")
+            Mobile_No = st.text_input("Mobile Number", placeholder="09xx-xxx-xxxx")
         with col5:
             st.write(" ")
             st.write(" ")

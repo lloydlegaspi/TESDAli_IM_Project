@@ -350,10 +350,10 @@ def fetch_applications_over_time():
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-            SELECT MONTH(Application_Date) AS Month, COUNT(*) AS Count
+            SELECT YEAR(Application_Date) AS Year, COUNT(*) AS Count
             FROM Application
-            GROUP BY MONTH(Application_Date)
-            ORDER BY Month
+            GROUP BY YEAR(Application_Date)
+            ORDER BY Year
             """)
             result = cursor.fetchall()
             cursor.close()
@@ -528,7 +528,7 @@ def fetch_industry_workers_in_CALABARZON():
             cursor.execute("""
             SELECT Name, Age, Address, Mobile_No, Email
             FROM Learners
-            WHERE Address LIKE '%Cavite' OR Address LIKE '%Laguna' OR Address LIKE '%Batangas' OR Address LIKE '%Rizal' OR Address LIKE '%Quezon'
+            WHERE Address LIKE '%Cavite%' OR Address LIKE '%Laguna%' OR Address LIKE '%Batangas%' OR Address LIKE '%Rizal%' OR Address LIKE '%Quezon%'
             AND Client_Type = 'IW'
             ORDER BY Name;
             """)
@@ -542,10 +542,59 @@ def fetch_industry_workers_in_CALABARZON():
     finally:
         if conn:
             conn.close()
+    
+def fetch_assessment_titles_starting_with_J():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT
+                Assessment_Title,
+                COUNT(*) AS `Number of Applications`
+            FROM
+                application
+            WHERE Assessment_Title LIKE 'J%'
+            GROUP BY
+                Assessment_Title
+            ORDER BY
+                `Number of Applications` DESC;
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching assessment titles starting with J: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
+
+def fetch_manila_high_school_graduates():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT Name, Age
+            FROM learners
+            WHERE Address LIKE '%Manila%' AND Education = 'High School Graduate' 
+            ORDER BY Age DESC;
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching Manila high school graduates: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
 
 
 # Moderate
-
 def fetch_applicants_demographics_per_client_type():
     try:
         conn = connect_to_database()
@@ -601,7 +650,7 @@ def fetch_applications_programming_networking():
             GROUP BY 
                 Training_Center, Assessment_Title
             HAVING 
-                COUNT(Ref_No) > 3
+                COUNT(Ref_No) >= 2
             ORDER BY 
                 Total_Applications DESC;
             """)
@@ -616,27 +665,24 @@ def fetch_applications_programming_networking():
         if conn:
             conn.close()
 
-
-# Difficult
-def fetch_avg_salary_by_education_and_emp_status():
+def fetch_avg_salary_emp_status():
     try:
         conn = connect_to_database()
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
             SELECT
-                l.Education, 
-                l.Emp_Status, 
-                AVG(w.Salary) AS Avg_Salary
+                Emp_Status,
+                AVG(Salary) AS 'Average Salary'
             FROM
                 learners l, work_exp w
             WHERE
                 l.Learners_ID = w.Learners_ID
-            GROUP BY 
-                l.Education, 
-                l.Emp_Status
-            ORDER BY 
-                Avg_Salary DESC
+            GROUP BY
+                Emp_Status
+            HAVING AVG(Salary) > 50000
+            ORDER BY
+                AVG(Salary) ASC;
             """)
             result = cursor.fetchall()
             columns = cursor.column_names
@@ -649,6 +695,31 @@ def fetch_avg_salary_by_education_and_emp_status():
         if conn:
             conn.close()
 
+def fetch_training_centers_with_multiple_assessment_titles():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT Training_Center, COUNT(DISTINCT(Assessment_Title)) AS 'Assessment Count'
+            FROM application
+            WHERE YEAR(Application_Date) >= 2020
+            GROUP BY Training_Center
+            HAVING COUNT(Assessment_Title) > 1
+            ORDER BY Training_Center;
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching training centers with multiple assessment titles: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
+                
+# Difficult
 def fetch_learners_with_limited_work_opp():
     try:
         conn = connect_to_database()
@@ -692,6 +763,61 @@ def fetch_learners_with_limited_work_opp():
             return result, columns
     except connector.Error as e:
         print(f"Error fetching learners who have limited work opportunites: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
+
+def fetch_assessment_activities_of_OFWs():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT
+                a.Training_Center,
+                COUNT(a.Ref_No) AS Total_Assessments,
+                COUNT(DISTINCT a.Assessment_Title) AS Unique_Assessment_Titles
+            FROM
+                application a, learners l 
+            WHERE 
+                a.Learners_ID = l.Learners_ID
+            AND
+                l.Emp_Status = 'OFW'
+            GROUP BY
+                a.Training_Center
+            HAVING
+                COUNT(a.Ref_No) > 3;
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching assessment activities of OFWs: {e}")
+        return []
+    finally:
+        if conn:
+            conn.close()
+            
+def fetch_learners_with_significant_work_exp():
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT a.Learners_ID, a.Application_Date, l.Name, l.Email, COUNT(w.Work_Exp_Code) AS 'Work Experience'
+            FROM learners AS l, application AS a, work_exp AS w
+            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID AND YEAR(a.Application_Date) > 2018 AND a.Training_Address LIKE '%Makati%' AND w.Salary > 50000
+            GROUP BY  a.Learners_ID, a.Application_Date, l.Name, l.Email
+            HAVING COUNT(w.Work_Exp_Code)  > 1 ;
+            """)
+            result = cursor.fetchall()
+            columns = cursor.column_names
+            cursor.close()
+            return result, columns
+    except connector.Error as e:
+        print(f"Error fetching learners with significant work experience: {e}")
         return []
     finally:
         if conn:
@@ -759,107 +885,6 @@ def fetch_learners_with_over_5_years_work_exp():
             return result, columns
     except connector.Error as e:
         print(f"Error fetching learners with over 5 years of work experience: {e}")
-        return []
-    finally:
-        if conn:
-            conn.close()
-
-def fetch_learners_in_training_centers():
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-            SELECT Training_Center, COUNT(DISTINCT Learners_ID) AS 'Applicant Count'
-            FROM application AS a
-            GROUP BY a.Training_Center;
-
-            """)
-            result = cursor.fetchall()
-            columns = cursor.column_names
-            cursor.close()
-            return result, columns
-    except connector.Error as e:
-        print(f"Error fetching training centers: {e}")
-        return []
-    finally:
-        if conn:
-            conn.close()
-
-def fetch_learners_with_multiple_training_centers():
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-            SELECT l.Learners_ID, l.Name, a.Training_Center, COUNT(a.Training_Center) AS 'Application Count'
-            FROM learners AS l, application AS a
-            WHERE l.Learners_ID = a.Learners_ID
-            GROUP BY l.Learners_ID, l.Name, a.Training_Center
-            HAVING COUNT(A.Training_Center) > 1;
-            """)
-            result = cursor.fetchall()
-            columns = cursor.column_names
-            cursor.close()
-            return result, columns
-    except connector.Error as e:
-        print(f"Error fetching learners with multiple training centers: {e}")
-        return []
-    finally:
-        if conn:
-            conn.close()
-
-def fetch_learners_with_significant_work_exp():
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-            SELECT a.Learners_ID, a.Application_Date, l.Name, l.Email, COUNT(w.Work_Exp_Code) AS 'Work Experience'
-            FROM learners AS l, application AS a, work_exp AS w
-            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID AND YEAR(a.Application_Date) > 2020 AND a.Training_Address LIKE '%Makati%' AND w.Salary > 50000
-            GROUP BY  a.Learners_ID, a.Application_Date, l.Name, l.Email
-            HAVING COUNT(w.Work_Exp_Code)  > 1 ;
-
-            """)
-            result = cursor.fetchall()
-            columns = cursor.column_names
-            cursor.close()
-            return result, columns
-    except connector.Error as e:
-        print(f"Error fetching learners with significant work experience: {e}")
-        return []
-    finally:
-        if conn:
-            conn.close()
-            
-def fetch_assessment_activities_of_OFWs():
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-            SELECT
-                a.Training_Center,
-                COUNT(a.Ref_No) AS Total_Assessments,
-                COUNT(DISTINCT a.Assessment_Title) AS Unique_Assessment_Titles
-            FROM
-                application a, learners l 
-            WHERE 
-                a.Learners_ID = l.Learners_ID
-            AND
-                l.Emp_Status = 'OFW'
-            GROUP BY
-                a.Training_Center
-            HAVING
-                COUNT(a.Ref_No) > 3;
-            """)
-            result = cursor.fetchall()
-            columns = cursor.column_names
-            cursor.close()
-            return result, columns
-    except connector.Error as e:
-        print(f"Error fetching assessment activities of OFWs: {e}")
         return []
     finally:
         if conn:
