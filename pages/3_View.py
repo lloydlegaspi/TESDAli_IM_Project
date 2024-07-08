@@ -397,7 +397,7 @@ with tab3:
     with st.expander("3. Analysis of Learner Distribution by Employment Status for OFWs and College Graduates"):
         st.divider()
         st.write("The Technical Education and Skills Development Authority (TESDA) wants to analyze the distribution of learners based on their employment status. They are particularly interested in learners who are either Overseas Filipino Workers (OFW) or College Graduates (C). TESDA needs a report that shows the count of these learners for each employment status, where the count is greater than 1. Display each employment status and the corresponding count of learners sorted in ascending order.")
-        avesalaryEmpdata, avesalaryEmpcolumns = fetch_avg_salary_emp_status()
+        avesalaryEmpdata, avesalaryEmpcolumns = fetch_lc_by_ofw_empstatus()
         avesalaryEmpdf = pd.DataFrame(avesalaryEmpdata, columns=avesalaryEmpcolumns) 
         st.dataframe(avesalaryEmpdf, hide_index=True, use_container_width=True)
     

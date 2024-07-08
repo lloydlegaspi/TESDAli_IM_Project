@@ -609,7 +609,7 @@ def fetch_applications_programming_networking():
         if conn:
             conn.close()
 
-def fetch_avg_salary_emp_status():
+def fetch_lc_by_ofw_empstatus():
     try:
         conn = connect_to_database()
         if conn:
