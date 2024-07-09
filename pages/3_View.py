@@ -163,7 +163,6 @@ work_exp_df = pd.DataFrame(work_exp_data, columns=work_exp_columns)
 courses_offered, total_learners, total_applications, average_age = fetch_metrics()
 
 st.write(" ")
-# Example usage of displaying metrics (assuming you use streamlit)
 col1, col2, col3, col4, col5 = st.columns([3, 1, 1, 1, 1])
 col1.markdown("<h1 style='color: blue; text-align: center;'>TESDA Dashboard</h1>", unsafe_allow_html=True)
 col2.metric("Courses Offered", courses_offered, "Assessments")
@@ -245,7 +244,6 @@ with tab1:
             df['Year'] = pd.to_datetime(df['Year'], format='%Y')
             df.set_index('Year', inplace=True)
 
-            # Plotting with Matplotlib
             plt.figure(figsize=(10, 6))
             years = [row[0] for row in data] 
             counts = [row[1] for row in data]
@@ -256,7 +254,6 @@ with tab1:
             plt.yticks(range(0, max(df['Count']) + 1, 1))
             plt.tight_layout()
 
-            # Display the plot using Streamlit
             st.pyplot()
             
         st.write(" ")
@@ -275,7 +272,6 @@ with tab2:
             df = pd.DataFrame(data, columns=['Client Type', 'Count'])
             blues = ['#0000ff', '##31b1e0', '#7ed1e6', '#0000b2', '#000099']
 
-            # Plotting Client Type Distribution with Plotly
             fig = go.Figure(data=[go.Pie(labels=df['Client Type'], values=df['Count'], hole=0.2, 
                                          marker=dict(colors=blues))])
             fig.update_traces(textposition='inside', textinfo='label+percent', showlegend=False)
@@ -307,7 +303,6 @@ with tab2:
             sex_df = pd.DataFrame(sex_data, columns=['Sex', 'Count'])
             blues = ['skyblue', '##31b1e0'] 
             
-            # Plotting Sex Distribution with Plotly
             fig = go.Figure(data=[go.Pie(labels=sex_df['Sex'], values=sex_df['Count'], hole=0.2, 
                                          marker=dict(colors=blues))])
             fig.update_traces(textposition='inside', textinfo='label+percent', showlegend=False)
@@ -327,7 +322,6 @@ with tab2:
             bars = ax.barh(salary_df['Employment Status'], salary_df['Average Salary'], color='skyblue')
             ax.set_xlabel('Average Salary')
 
-            # Add labels to the bars
             for bar in bars:
                 width = bar.get_width()
                 ax.text(width, bar.get_y() + bar.get_height() / 2,

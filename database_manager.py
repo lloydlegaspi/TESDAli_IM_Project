@@ -9,7 +9,7 @@ load_dotenv()
 PASSWORD = os.getenv("PASSWORD")
 
 @staticmethod
-# Function to connect to the MySQL database
+# Connect to the MySQL database
 def connect_to_database():
     try:
         conn = connector.connect(
@@ -24,7 +24,7 @@ def connect_to_database():
         print(f"Error connecting to MySQL database: {e}")
         return None
 
-# Function to create tables in the database
+# Create tables in the database
 def create_tables():
     try:
         conn = connect_to_database()
@@ -92,7 +92,7 @@ def create_tables():
             conn.close()
 
 # INSERT RECORDS
-# Function to insert data into the Learners table
+# Insert data into the Learners table
 def insert_into_learners(learners_id, client_type, name, address, mothers_name, fathers_name, sex, civil_status,
                          tel_no, mobile_no, email, fax_no, education, emp_status, birth_date, birth_place, age):
     try:
@@ -116,7 +116,7 @@ def insert_into_learners(learners_id, client_type, name, address, mothers_name, 
         if conn:
             conn.close()
 
-# Function to insert data into the Application table
+# Insert data into the Application table
 def insert_into_application(application_date, training_center, training_address, assessment_title, assessment_status,
                             learners_id):
     try:
@@ -139,7 +139,7 @@ def insert_into_application(application_date, training_center, training_address,
         if conn:
             conn.close()
 
-# Function to insert data into the Work_Experience table
+# Insert data into the Work_Experience table
 def insert_into_work_experience(comp_name, position, start_date, end_date, salary, appt_status, work_years, learners_id):
     try:
         conn = connect_to_database()
@@ -192,13 +192,11 @@ def update_record(table, record_id, update_data):
             conn.close()
 
 # DELETE RECORDS  
-# Function to delete a record from the specified table
 def delete_record(table, record_id):
     try:
         conn = connect_to_database()
         if conn:
             cursor = conn.cursor()
-            # Determine the primary key column based on the table name
             primary_key = {
                 "Learners": "Learners_ID",
                 "Application": "Ref_No",
@@ -206,9 +204,10 @@ def delete_record(table, record_id):
             }.get(table)
             if not primary_key:
                 raise ValueError("Invalid table name")
-            # Delete the record
+            
             cursor.execute(f"DELETE FROM {table} WHERE {primary_key} = %s", (record_id,))
             conn.commit()
+            
             if cursor.rowcount == 0:
                 return False, f"No record found with ID {record_id} in {table} table"
             return True, f"Record with ID {record_id} deleted from {table} table successfully"
@@ -266,7 +265,8 @@ def fetch_work_experiences():
     finally:
         if conn:
             conn.close()
-            
+
+#FETCH RECORD BY ID         
 def fetch_record(table, record_id):
     primary_keys = {
         "Learners": "Learners_ID",
@@ -307,19 +307,15 @@ def fetch_metrics():
         if conn:
             cursor = conn.cursor()
             
-            # Fetch Courses Offered count
             cursor.execute("SELECT COUNT(DISTINCT Assessment_Title) FROM Application")
             courses_offered = cursor.fetchone()[0]
 
-            # Fetch Total Learners count
             cursor.execute("SELECT COUNT(*) FROM Learners")
             total_learners = cursor.fetchone()[0]
 
-            # Fetch Total Applications count
             cursor.execute("SELECT COUNT(*) FROM Application")
             total_applications = cursor.fetchone()[0]
 
-            # Fetch Average Age of Learners
             cursor.execute("SELECT AVG(Age) FROM Learners")
             average_age = round(cursor.fetchone()[0] or 0)
 
@@ -334,7 +330,6 @@ def fetch_metrics():
 
 
 # Application Summary
-# Function to fetch assessment titles distribution and visualize (new)
 def fetch_assessment_titles_distribution():
     try:
         conn = connect_to_database()
@@ -355,7 +350,6 @@ def fetch_assessment_titles_distribution():
         if conn:
             conn.close()
 
-# Function to fetch top training centers and visualize (new)
 def fetch_top_training_centers():
     try:
         conn = connect_to_database()
@@ -404,7 +398,6 @@ def fetch_assessment_status_distribution():
         if conn:
             conn.close()
 
-# Function to fetch applications over time from the database
 def fetch_applications_over_time():
     try:
         conn = connect_to_database()
@@ -424,7 +417,6 @@ def fetch_applications_over_time():
         return None
 
 # Learners Summary
-# Function to fetch client type distribution
 def fetch_client_type_distribution():
     try:
         conn = connect_to_database()
@@ -452,7 +444,6 @@ def fetch_client_type_distribution():
         if conn:
             conn.close()
     
-# Function to fetch age distribution
 def fetch_age_distribution():
     try:
         conn = connect_to_database()
@@ -473,7 +464,6 @@ def fetch_age_distribution():
         if conn:
             conn.close()
 
-# Function to fetch sex distribution
 def fetch_sex_distribution():
     try:
         conn = connect_to_database()
