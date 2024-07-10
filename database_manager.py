@@ -549,7 +549,7 @@ def fetch_industry_workers_in_CALABARZON():
             cursor.execute("""
             SELECT Name, Age, Address, Mobile_No, Email
             FROM Learners
-            WHERE Address LIKE '%Cavite%' OR Address LIKE '%Laguna%' OR Address LIKE '%Batangas%' OR Address LIKE '%Rizal%' OR Address LIKE '%Quezon%'
+            WHERE (Address LIKE '%Cavite%' OR Address LIKE '%Laguna%' OR Address LIKE '%Batangas%' OR Address LIKE '%Rizal%' OR Address LIKE '%Quezon%')
             AND Client_Type = 'IW'
             ORDER BY Name;
             """)
@@ -601,7 +601,7 @@ def fetch_applicants_demographics_per_client_type():
             FROM 
                 Learners
             WHERE 
-                Age > 18 AND Civil_Status = 'S'
+                Age >= 18 AND Civil_Status = 'S'
             GROUP BY 
                 Client_Type, 
                 Sex
@@ -610,7 +610,6 @@ def fetch_applicants_demographics_per_client_type():
             ORDER BY 
                 Client_Type,  
                 Average_Age DESC;
-
             """)
             result = cursor.fetchall()
             columns = cursor.column_names
@@ -675,7 +674,7 @@ def fetch_lc_by_p_se_empstatus():
             HAVING 
                 COUNT(*) > 1
             ORDER BY 
-                'Learner Count' ASC;
+                COUNT(*) ASC;
             """)
             result = cursor.fetchall()
             columns = cursor.column_names
@@ -800,11 +799,11 @@ def fetch_learners_with_significant_work_exp():
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-            SELECT a.Learners_ID, a.Application_Date, l.Name, l.Email, COUNT(w.Work_Exp_Code) AS 'Work Experience'
+            SELECT a.Learners_ID, a.Application_Date, l.Name, l.Email, COUNT(w.Work_Exp_Code) AS 'Work Experience', AVG(w.Salary) AS 'Average Salary'
             FROM learners AS l, application AS a, work_exp AS w
-            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID AND YEAR(a.Application_Date) > 2018 AND a.Training_Address LIKE '%Makati%' AND w.Salary > 50000
+            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID AND YEAR(a.Application_Date) > 2018 AND a.Training_Address LIKE '%Makati%'
             GROUP BY  a.Learners_ID, a.Application_Date, l.Name, l.Email
-            HAVING COUNT(w.Work_Exp_Code)  > 1 
+            HAVING COUNT(w.Work_Exp_Code)  > 1 AND AVG(w.Salary) > 50000
             ORDER BY COUNT(w.Work_Exp_Code) DESC;
             """)
             result = cursor.fetchall()

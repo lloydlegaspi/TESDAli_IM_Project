@@ -390,7 +390,7 @@ with tab3:
     
     with st.expander("3. Analysis of Learner Distribution by Employment Status for Permanent and Self-Employed Applicants"):
         st.divider()
-        st.write("TESDA wants to analyze the distribution of learners based on their employment status. They are particularly interested in learners who's employment status either permanent or self-employed. TESDA needs a report that shows the count of these learners for each employment status, where the count is greater than 1. Display each employment status and the corresponding count of learners sorted in ascending order.")
+        st.write("TESDA wants to analyze the distribution of learners based on their employment status. They are particularly interested in learners whose employment status either permanent or self-employed. TESDA needs a report that shows the count of these learners for each employment status, where the count is greater than 1. Display each employment status and the corresponding count of learners sorted in ascending order.")
         lcpdata, lcpcolumns = fetch_lc_by_p_se_empstatus()
         lcpdf = pd.DataFrame(lcpdata, columns=lcpcolumns) 
         st.dataframe(lcpdf, hide_index=True, use_container_width=True)
@@ -421,7 +421,7 @@ with tab3:
         
     with st.expander("3. Analysis of Learners with Significant Work Experience and High Salaries in Makati-Based Training Centers Post-2018"):
         st.divider()
-        st.write("Display learner’s ID, application date, name, email and the count of work experiences of applicants that have applied after 2018 and have multiple work experiences with salaries exceeding 50,000 pesos. Sort by the count of work experiences in descending order.")
+        st.write("TESDA wants to identify potential candidates for its advanced course based on their work experience and application details. They require applicants to have applied after 2020, had training at Makati, and had multiple work experiences with salaries exceeding 50,000 pesos. Display the learner’s ID, application date, name, email, count of work experiences, and the average salary of applicants.")
         learnersSignificantWorkExpdata, learnersSignificantWorkExpcolumns = fetch_learners_with_significant_work_exp()
         learnersSignificantWorkExpdf = pd.DataFrame(learnersSignificantWorkExpdata, columns=learnersSignificantWorkExpcolumns)
         st.dataframe(learnersSignificantWorkExpdf, hide_index=True, use_container_width=True)
