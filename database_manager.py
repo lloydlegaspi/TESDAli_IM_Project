@@ -9,7 +9,7 @@ load_dotenv()
 PASSWORD = os.getenv("PASSWORD")
 
 @staticmethod
-# Function to connect to the MySQL database
+# Connect to the MySQL database
 def connect_to_database():
     try:
         conn = connector.connect(
@@ -24,7 +24,7 @@ def connect_to_database():
         print(f"Error connecting to MySQL database: {e}")
         return None
 
-# Function to create tables in the database
+# Create tables in the database
 def create_tables():
     try:
         conn = connect_to_database()
@@ -91,8 +91,8 @@ def create_tables():
         if conn:
             conn.close()
 
-
-# Function to insert data into the Learners table
+# INSERT RECORDS
+# Insert data into the Learners table
 def insert_into_learners(learners_id, client_type, name, address, mothers_name, fathers_name, sex, civil_status,
                          tel_no, mobile_no, email, fax_no, education, emp_status, birth_date, birth_place, age):
     try:
@@ -116,7 +116,7 @@ def insert_into_learners(learners_id, client_type, name, address, mothers_name, 
         if conn:
             conn.close()
 
-# Function to insert data into the Application table
+# Insert data into the Application table
 def insert_into_application(application_date, training_center, training_address, assessment_title, assessment_status,
                             learners_id):
     try:
@@ -139,7 +139,7 @@ def insert_into_application(application_date, training_center, training_address,
         if conn:
             conn.close()
 
-# Function to insert data into the Work_Experience table
+# Insert data into the Work_Experience table
 def insert_into_work_experience(comp_name, position, start_date, end_date, salary, appt_status, work_years, learners_id):
     try:
         conn = connect_to_database()
@@ -159,8 +159,65 @@ def insert_into_work_experience(comp_name, position, start_date, end_date, salar
     finally:
         if conn:
             conn.close()
+
+# UPDATE RECORDS
+def update_record(table, record_id, update_data):
+    primary_keys = {
+        "Learners": "Learners_ID",
+        "Application": "Ref_No",
+        "Work_Exp": "Work_Exp_Code"
+    }
+    
+    if table not in primary_keys:
+        print(f"Unknown table: {table}")
+        return None, None
+    
+    primary_key = primary_keys[table]
+    
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
+            values = list(update_data.values())
+            update_query = f"UPDATE {table} SET {set_clause} WHERE {primary_key} = %s"
+            values.append(record_id)
+            cursor.execute(update_query, values)
+            conn.commit()
+            print(f"Record in {table} table updated successfully")
+    except connector.Error as e:
+        print(f"Error updating record in {table} table: {e}")
+    finally:
+        if conn:
+            conn.close()
+
+# DELETE RECORDS  
+def delete_record(table, record_id):
+    try:
+        conn = connect_to_database()
+        if conn:
+            cursor = conn.cursor()
+            primary_key = {
+                "Learners": "Learners_ID",
+                "Application": "Ref_No",
+                "Work_Exp": "Work_Exp_Code"
+            }.get(table)
+            if not primary_key:
+                raise ValueError("Invalid table name")
             
-# Functions to fetch data from the database
+            cursor.execute(f"DELETE FROM {table} WHERE {primary_key} = %s", (record_id,))
+            conn.commit()
+            
+            if cursor.rowcount == 0:
+                return False, f"No record found with ID {record_id} in {table} table"
+            return True, f"Record with ID {record_id} deleted from {table} table successfully"
+    except connector.Error as e:
+        return False, f"Error deleting record from {table} table: {e}"
+    finally:
+        if conn:
+            conn.close()
+            
+# FETCH/READ RECORDS
 def fetch_learners():
     try:
         conn = connect_to_database()
@@ -208,7 +265,8 @@ def fetch_work_experiences():
     finally:
         if conn:
             conn.close()
-            
+
+#FETCH RECORD BY ID         
 def fetch_record(table, record_id):
     primary_keys = {
         "Learners": "Learners_ID",
@@ -242,25 +300,22 @@ def fetch_record(table, record_id):
         if conn:
             conn.close()
 
+#View Page Functions
 def fetch_metrics():
     try:
         conn = connect_to_database()
         if conn:
             cursor = conn.cursor()
             
-            # Fetch Courses Offered count
             cursor.execute("SELECT COUNT(DISTINCT Assessment_Title) FROM Application")
             courses_offered = cursor.fetchone()[0]
 
-            # Fetch Total Learners count
             cursor.execute("SELECT COUNT(*) FROM Learners")
             total_learners = cursor.fetchone()[0]
 
-            # Fetch Total Applications count
             cursor.execute("SELECT COUNT(*) FROM Application")
             total_applications = cursor.fetchone()[0]
 
-            # Fetch Average Age of Learners
             cursor.execute("SELECT AVG(Age) FROM Learners")
             average_age = round(cursor.fetchone()[0] or 0)
 
@@ -275,7 +330,6 @@ def fetch_metrics():
 
 
 # Application Summary
-# Function to fetch assessment titles distribution and visualize (new)
 def fetch_assessment_titles_distribution():
     try:
         conn = connect_to_database()
@@ -296,7 +350,6 @@ def fetch_assessment_titles_distribution():
         if conn:
             conn.close()
 
-# Function to fetch top training centers and visualize (new)
 def fetch_top_training_centers():
     try:
         conn = connect_to_database()
@@ -345,7 +398,6 @@ def fetch_assessment_status_distribution():
         if conn:
             conn.close()
 
-# Function to fetch applications over time from the database
 def fetch_applications_over_time():
     try:
         conn = connect_to_database()
@@ -365,7 +417,6 @@ def fetch_applications_over_time():
         return None
 
 # Learners Summary
-# Function to fetch client type distribution
 def fetch_client_type_distribution():
     try:
         conn = connect_to_database()
@@ -393,7 +444,6 @@ def fetch_client_type_distribution():
         if conn:
             conn.close()
     
-# Function to fetch age distribution
 def fetch_age_distribution():
     try:
         conn = connect_to_database()
@@ -414,7 +464,6 @@ def fetch_age_distribution():
         if conn:
             conn.close()
 
-# Function to fetch sex distribution
 def fetch_sex_distribution():
     try:
         conn = connect_to_database()
@@ -500,7 +549,7 @@ def fetch_industry_workers_in_CALABARZON():
             cursor.execute("""
             SELECT Name, Age, Address, Mobile_No, Email
             FROM Learners
-            WHERE Address LIKE '%Cavite%' OR Address LIKE '%Laguna%' OR Address LIKE '%Batangas%' OR Address LIKE '%Rizal%' OR Address LIKE '%Quezon%'
+            WHERE (Address LIKE '%Cavite%' OR Address LIKE '%Laguna%' OR Address LIKE '%Batangas%' OR Address LIKE '%Rizal%' OR Address LIKE '%Quezon%')
             AND Client_Type = 'IW'
             ORDER BY Name;
             """)
@@ -537,7 +586,6 @@ def fetch_manila_high_school_graduates():
         if conn:
             conn.close()
 
-
 # Moderate
 def fetch_applicants_demographics_per_client_type():
     try:
@@ -553,7 +601,7 @@ def fetch_applicants_demographics_per_client_type():
             FROM 
                 Learners
             WHERE 
-                Age > 18 AND Civil_Status = 'S'
+                Age >= 18 AND Civil_Status = 'S'
             GROUP BY 
                 Client_Type, 
                 Sex
@@ -562,7 +610,6 @@ def fetch_applicants_demographics_per_client_type():
             ORDER BY 
                 Client_Type,  
                 Average_Age DESC;
-
             """)
             result = cursor.fetchall()
             columns = cursor.column_names
@@ -609,7 +656,8 @@ def fetch_applications_programming_networking():
         if conn:
             conn.close()
 
-def fetch_lc_by_ofw_empstatus():
+
+def fetch_lc_by_p_se_empstatus():
     try:
         conn = connect_to_database()
         if conn:
@@ -621,13 +669,13 @@ def fetch_lc_by_ofw_empstatus():
             FROM 
                 learners
             WHERE 
-                Emp_Status = 'OFW' OR Emp_Status = 'C'
+                Emp_Status = 'P' OR Emp_Status = 'SE'
             GROUP BY 
                 Emp_Status
             HAVING 
                 COUNT(*) > 1
             ORDER BY 
-                'Learner Count' ASC;
+                COUNT(*) ASC;
             """)
             result = cursor.fetchall()
             columns = cursor.column_names
@@ -752,11 +800,11 @@ def fetch_learners_with_significant_work_exp():
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-            SELECT a.Learners_ID, a.Application_Date, l.Name, l.Email, COUNT(w.Work_Exp_Code) AS 'Work Experience'
+            SELECT a.Learners_ID, a.Application_Date, l.Name, l.Email, COUNT(w.Work_Exp_Code) AS 'Work Experience', AVG(w.Salary) AS 'Average Salary'
             FROM learners AS l, application AS a, work_exp AS w
-            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID AND YEAR(a.Application_Date) > 2018 AND a.Training_Address LIKE '%Makati%' AND w.Salary > 50000
+            WHERE l.Learners_ID = a.Learners_ID AND l.Learners_ID = w.Learners_ID AND YEAR(a.Application_Date) > 2018 AND a.Training_Address LIKE '%Makati%'
             GROUP BY  a.Learners_ID, a.Application_Date, l.Name, l.Email
-            HAVING COUNT(w.Work_Exp_Code)  > 1 
+            HAVING COUNT(w.Work_Exp_Code)  > 1 AND AVG(w.Salary) > 50000
             ORDER BY COUNT(w.Work_Exp_Code) DESC;
             """)
             result = cursor.fetchall()
@@ -766,99 +814,6 @@ def fetch_learners_with_significant_work_exp():
     except connector.Error as e:
         print(f"Error fetching learners with significant work experience: {e}")
         return []
-    finally:
-        if conn:
-            conn.close()
-   
-    
-def fetch_learners_with_over_5_years_work_exp():
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-            SELECT
-                l.Name AS 'Applicant Name',
-                l.Address AS 'Applicant Address',
-                l.Email AS 'Applicant Email',
-                SUM(w.Work_Years) AS 'Total Work Years'
-            FROM
-                learners l, work_exp w
-            WHERE
-                l.Learners_ID = w.Learners_ID
-                AND Sex = 'F'
-            GROUP BY
-                l.Name, l.Address, l.Email
-            HAVING SUM(w.Work_Years) > 5
-            ORDER BY
-                SUM(w.Work_Years) DESC;
-
-            """)
-            result = cursor.fetchall()
-            columns = cursor.column_names
-            cursor.close()
-            return result, columns
-    except connector.Error as e:
-        print(f"Error fetching learners with over 5 years of work experience: {e}")
-        return []
-    finally:
-        if conn:
-            conn.close()
-
-# UPDATE RECORDS
-def update_record(table, record_id, update_data):
-    primary_keys = {
-        "Learners": "Learners_ID",
-        "Application": "Ref_No",
-        "Work_Exp": "Work_Exp_Code"
-    }
-    
-    if table not in primary_keys:
-        print(f"Unknown table: {table}")
-        return None, None
-    
-    primary_key = primary_keys[table]
-    
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            set_clause = ", ".join([f"{key} = %s" for key in update_data.keys()])
-            values = list(update_data.values())
-            update_query = f"UPDATE {table} SET {set_clause} WHERE {primary_key} = %s"
-            values.append(record_id)
-            cursor.execute(update_query, values)
-            conn.commit()
-            print(f"Record in {table} table updated successfully")
-    except connector.Error as e:
-        print(f"Error updating record in {table} table: {e}")
-    finally:
-        if conn:
-            conn.close()
-
-# DELETE RECORDS  
-# Function to delete a record from the specified table
-def delete_record(table, record_id):
-    try:
-        conn = connect_to_database()
-        if conn:
-            cursor = conn.cursor()
-            # Determine the primary key column based on the table name
-            primary_key = {
-                "Learners": "Learners_ID",
-                "Application": "Ref_No",
-                "Work_Exp": "Work_Exp_Code"
-            }.get(table)
-            if not primary_key:
-                raise ValueError("Invalid table name")
-            # Delete the record
-            cursor.execute(f"DELETE FROM {table} WHERE {primary_key} = %s", (record_id,))
-            conn.commit()
-            if cursor.rowcount == 0:
-                return False, f"No record found with ID {record_id} in {table} table"
-            return True, f"Record with ID {record_id} deleted from {table} table successfully"
-    except connector.Error as e:
-        return False, f"Error deleting record from {table} table: {e}"
     finally:
         if conn:
             conn.close()

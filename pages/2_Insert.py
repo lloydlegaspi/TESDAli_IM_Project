@@ -166,15 +166,15 @@ st.write(" ")
 st.write(" ")
 st.write(" ")
 
-st.write("Please provide accurate and complete information for each section below. Items marked with an asterisk (*) are mandatory fields.")
+st.write("Please provide accurate and complete information for each section below. Optional fields are labeled as such.")
 
 with st.form("application_form", clear_on_submit=True):
     st.markdown("<h1 style='color: blue;'>APPLICATION FORM</h1>", unsafe_allow_html=True)
     col1, col2= st.columns([1, 1])
     with col1:
-        Learners_ID = st.text_input("UNIQUE LEARNERS IDENTIFIER (ULI)*")
+        Learners_ID = st.text_input("UNIQUE LEARNERS IDENTIFIER (ULI)")
     with col2:
-        Application_Date = st.date_input("Date of Application*")
+        Application_Date = st.date_input("Date of Application")
         
     st.write(" ")
 
@@ -213,18 +213,18 @@ with st.form("application_form", clear_on_submit=True):
                              help="Enter your full name", label_visibility="collapsed")
         
         st.write("2.2. Mailing Address")
-        Address = st.text_input("Number, Street*",
+        Address = st.text_input("Number, Street",
                                 placeholder="Number, Street, Barangay, District, City, Province, Region, Zip Code",
                                 label_visibility="collapsed")
         
         col1, col2 = st.columns([1, 1])
         with col1:
             st.write("2.3. Mother's Name")
-            Mothers_Name = st.text_input("Mother's Name*", label_visibility="collapsed", 
+            Mothers_Name = st.text_input("Mother's Name", label_visibility="collapsed", 
                                          placeholder="First Name, Middle Name, Last Name")
         with col2:
             st.write("2.4. Father's Name")
-            Fathers_Name = st.text_input("Father's Name*", label_visibility="collapsed",
+            Fathers_Name = st.text_input("Father's Name", label_visibility="collapsed",
                                          placeholder="First Name, Middle Name, Last Name")
 
 
@@ -243,19 +243,19 @@ with st.form("application_form", clear_on_submit=True):
             )
         with col3:
             st.write("2.7. Contact Information")
-            Tel_No = st.text_input("Telephone Number", placeholder="02-XXXX-YYYY")
+            Tel_No = st.text_input("Telephone Number (Optional)", placeholder="02-XXXX-YYYY")
         with col4:
             st.write(" ")
             st.write(" ")
-            Mobile_No = st.text_input("Mobile Number", placeholder="09XX-XXX-YYYY")
+            Mobile_No = st.text_input("Mobile Number (Optional)", placeholder="09XX-XXX-YYYY")
         with col5:
             st.write(" ")
             st.write(" ")
-            Email = st.text_input("E-mail Address*")
+            Email = st.text_input("E-mail Address")
         with col6:
             st.write(" ")
             st.write(" ")
-            Fax_No = st.text_input("Fax Number", placeholder="XXXX-YYYY")
+            Fax_No = st.text_input("Fax Number (Optional)", placeholder="XXXX-YYYY")
                 
         col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1.5, .5])
         with col1:
