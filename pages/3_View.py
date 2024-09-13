@@ -388,6 +388,7 @@ with tab3:
         application_programming_networking_df = pd.DataFrame(application_programming_networking_data, columns=application_programming_networking_cols)
         st.dataframe(application_programming_networking_df, hide_index=True, use_container_width=True)
     
+
     with st.expander("3. Analysis of Learner Distribution by Employment Status for Permanent and Self-Employed Applicants"):
         st.divider()
         st.write("TESDA wants to analyze the distribution of learners based on their employment status. They are particularly interested in learners whose employment status either permanent or self-employed. TESDA needs a report that shows the count of these learners for each employment status, where the count is greater than 1. Display each employment status and the corresponding count of learners sorted in ascending order.")

@@ -213,21 +213,24 @@ with col5:
     st.button("Delete a Record", disabled=True, use_container_width=True)
 
 
-# Footer
-st.markdown("""
-<style>
-    footer {
-        background-color: #253C64;
+def render_footer():
+    st.markdown("""
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #253C64; /* Background color */
+        color: #FFFFFF; /* Text color */
         text-align: center;
-        margin: 20px 0;
-        font-size: 12px;
-        color: #FFFFFF;
+        font-size: 12px; /* Font size */
         padding: 30px;
         border-radius: 10px;
         margin-top: 30px;
     }
-</style>
-<footer>
+    </style>
+    <div class="footer">
         This website is an independent project and is not affiliated with TESDA. It is intended solely for academic purposes.
 </footer>
 """, unsafe_allow_html=True)

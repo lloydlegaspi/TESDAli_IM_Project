@@ -656,6 +656,7 @@ def fetch_applications_programming_networking():
         if conn:
             conn.close()
 
+
 def fetch_lc_by_p_se_empstatus():
     try:
         conn = connect_to_database()
